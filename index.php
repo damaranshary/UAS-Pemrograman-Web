@@ -2,9 +2,9 @@
 include "server/connection.php";
 session_start();
 
-$query_permak = mysqli_query($connect, "SELECT * FROM users");
-//$query_permak = mysqli_query($connect, "SELECT nama, image, keterangan, harga FROM jasa WHERE jenis = permak");
-$query_buat = mysqli_query($connect, "SELECT nama, image, keterangan, harga FROM jasa WHERE jenis = buat");
+//$query_permak = mysqli_query($connect, "SELECT * FROM users");
+$query_permak = mysqli_query($connect, "SELECT nama, image, keterangan, harga FROM jasa WHERE jenis = 'permak'");
+$query_buat = mysqli_query($connect, "SELECT nama, image, keterangan, harga FROM jasa WHERE jenis = 'jahitbaru'");
 
 ?>
 <!doctype html>
@@ -79,22 +79,22 @@ $query_buat = mysqli_query($connect, "SELECT nama, image, keterangan, harga FROM
                         <button class="nav-link active" id="pills-permak-tab" data-bs-toggle="pill" data-bs-target="#pills-permak" type="button" role="tab" aria-controls="pills-permak" aria-selected="true">Permak</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="pills-potong-tab" data-bs-toggle="pill" data-bs-target="#pills-potong" type="button" role="tab" aria-controls="pills-potong" aria-selected="false">Potong</button>
+                        <button class="nav-link" id="pills-baru-tab" data-bs-toggle="pill" data-bs-target="#pills-baru" type="button" role="tab" aria-controls="pills-baru" aria-selected="false">Jahit Baru</button>
                     </li>
                 </ul>
                 <div class="tab-content mt-5" id="pills-tabContent">
                     <div class="tab-pane fade show active" id="pills-permak" role="tabpanel" aria-labelledby="pills-permak-tab">
-                        <div class="row my-4 row-cols-2 row-cols-md-4">
+                        <div class="row my-4 row-cols-2 row-cols-md-4 g-4">
                             <?php
                             $nomor = 0;
                             while ($data_permak = mysqli_fetch_array($query_permak)) {
                                 echo "<div class=col>";
                                 echo "<div class=card>";
-                                echo "<img src=... class=card-img-top alt=...>";
+                                echo "<img src=assets/img/$data_permak[image] class=card-img-top alt=...>";
                                 echo "<div class=card-body>";
-                                echo "<h5 class=card-title>$data_permak[name]</h5>";
-                                echo "<p class=card-text>$data_permak[email]</p>";
-                                echo "<a href=# class='btn btn-primary'>Go somewhere</a>";
+                                echo "<h5 class=card-title>$data_permak[nama]</h5>";
+                                echo "<p class=card-text>$data_permak[keterangan]</p>";
+                                echo "<a href=# class='btn btn-primary'>Rp. $data_permak[harga]</a>";
                                 echo "</div>";
                                 echo "</div>";
                                 echo "</div>";
@@ -103,23 +103,23 @@ $query_buat = mysqli_query($connect, "SELECT nama, image, keterangan, harga FROM
                             ?>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="pills-potong" role="tabpanel" aria-labelledby="pills-potong-tab">
+                    <div class="tab-pane fade" id="pills-baru" role="tabpanel" aria-labelledby="pills-baru-tab">
                         <div class="row mt-4 row-cols-2 row-cols-md-4">
                             <?php
-                            //$loop1 = 0;
-                            //while ($data_buat = mysqli_fetch_array($query_buat)) {
-                            //     echo "<div class=col>";
-                            //     echo "<div class=card>";
-                            //     echo "<img src=assets/img/$data_buat[image] class=card-img-top alt=...>";
-                            //     echo "<div class=card-body>";
-                            //     echo "<h5 class=card-title>$data_buat[nama]</h5>";
-                            //     echo "<p class=card-text>$data_buat[keterangan]</p>";
-                            //     echo "<a href=# class='btn btn-primary'>$data_buat[harga]</a>";
-                            //     echo "</div>";
-                            //     echo "</div>";
-                            //     echo "</div>";
-                            //     $loop1++;
-                            // }
+                            $loop1 = 0;
+                            while ($data_buat = mysqli_fetch_array($query_buat)) {
+                                echo "<div class=col>";
+                                echo "<div class=card>";
+                                echo "<img src=assets/img/$data_buat[image] class=card-img-top alt=...>";
+                                echo "<div class=card-body>";
+                                echo "<h5 class=card-title>$data_buat[nama]</h5>";
+                                echo "<p class=card-text>$data_buat[keterangan]</p>";
+                                echo "<a href=# class='btn btn-primary'>Rp. $data_buat[harga]</a>";
+                                echo "</div>";
+                                echo "</div>";
+                                echo "</div>";
+                                $loop1++;
+                            }
                             ?>
                         </div>
                     </div>
