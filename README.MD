@@ -14,9 +14,7 @@ App/
 │  │  ├─ logo.svg
 │  ├─ js/
 │  │  ├─ file.js
-├─ pages/
-│  ├─ index.php
 ├─ server/
 │  ├─ connection.php
-
+├─ index.php
 ```
