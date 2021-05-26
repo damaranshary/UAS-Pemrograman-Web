@@ -14,7 +14,7 @@ $query_buat = mysqli_query($connect, "SELECT nama, image, keterangan, harga FROM
     <?php
     include "assets/components/header.php"
     ?>
-    <link rel="stylesheet" href="assets/css/index.css" <link rel="stylesheet" href="assets/css/navbar.css">
+    <link rel="stylesheet" href="assets/css/style.css">
     <title>Hello, world!</title>
 </head>
 
@@ -55,7 +55,9 @@ $query_buat = mysqli_query($connect, "SELECT nama, image, keterangan, harga FROM
 
         <section class="section">
             <div class="container mt-5">
-                <h3>Popular Service</h3>
+                <div class="heading">
+                    <h3>Popular Service</h3>
+                </div>
                 <div class="row mt-4">
                     <div class="col">
                         <div class="card">
@@ -73,13 +75,21 @@ $query_buat = mysqli_query($connect, "SELECT nama, image, keterangan, harga FROM
 
         <section>
             <div class="container mt-5">
-                <h3>All Service</h3>
+                <div class="heading">
+                    <h3>All Service</h3>
+                </div>
                 <ul class="nav nav-pills justify-content-center mt-2" id="pills-tab" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="pills-permak-tab" data-bs-toggle="pill" data-bs-target="#pills-permak" type="button" role="tab" aria-controls="pills-permak" aria-selected="true">Permak</button>
+                        <button class="nav-link active pill-link" id="pills-permak-tab" data-bs-toggle="pill" data-bs-target="#pills-permak" type="button" role="tab" aria-controls="pills-permak" aria-selected="true">
+                            <img src="https://img.icons8.com/ios-filled/50/000000/scissors.png" /><br>
+                            Permak
+                        </button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="pills-baru-tab" data-bs-toggle="pill" data-bs-target="#pills-baru" type="button" role="tab" aria-controls="pills-baru" aria-selected="false">Jahit Baru</button>
+                        <button class="nav-link ms-2" id="pills-baru-tab" data-bs-toggle="pill" data-bs-target="#pills-baru" type="button" role="tab" aria-controls="pills-baru" aria-selected="false">
+                            <img src="https://img.icons8.com/ios-filled/50/000000/sewing-machine.png" /><br>
+                            Jahit Baru
+                        </button>
                     </li>
                 </ul>
                 <div class="tab-content mt-5" id="pills-tabContent">
@@ -90,11 +100,11 @@ $query_buat = mysqli_query($connect, "SELECT nama, image, keterangan, harga FROM
                             while ($data_permak = mysqli_fetch_array($query_permak)) {
                                 echo "<div class=col>";
                                 echo "<div class=card>";
-                                echo "<img src=assets/img/$data_permak[image] class=card-img-top alt=...>";
+                                echo "<img src=assets/img/$data_permak[image].jpg class='card-img-top' alt=...>";
                                 echo "<div class=card-body>";
                                 echo "<h5 class=card-title>$data_permak[nama]</h5>";
                                 echo "<p class=card-text>$data_permak[keterangan]</p>";
-                                echo "<a href=# class='btn btn-primary'>Rp. $data_permak[harga]</a>";
+                                echo "<p>Rp. $data_permak[harga]</p>";
                                 echo "</div>";
                                 echo "</div>";
                                 echo "</div>";
@@ -114,7 +124,7 @@ $query_buat = mysqli_query($connect, "SELECT nama, image, keterangan, harga FROM
                                 echo "<div class=card-body>";
                                 echo "<h5 class=card-title>$data_buat[nama]</h5>";
                                 echo "<p class=card-text>$data_buat[keterangan]</p>";
-                                echo "<a href=# class='btn btn-primary'>Rp. $data_buat[harga]</a>";
+                                echo "<p>Rp. $data_buat[harga]</p>";
                                 echo "</div>";
                                 echo "</div>";
                                 echo "</div>";

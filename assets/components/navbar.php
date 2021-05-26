@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-transparent fixed-top">
+<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
     <div class="container py-2 py-lg-3">
         <a class="navbar-brand" href="#">
             <img src="assets/img/logo.svg" alt="" width="100" height="">
@@ -11,17 +11,17 @@
                 <ul class="navbar-nav">
                     <li class="nav-item me-4">
                         <a class="nav-link active" aria-current="page" href="#">
-                            Home
+                            <i class="fas fa-home me-2"></i>Home
                         </a>
                     </li>
                     <li class="nav-item me-4">
-                        <a class="nav-link" href="#">Promo</a>
+                        <a class="nav-link" href="#"><i class="fas fa-percentage me-2"></i>Promo</a>
                     </li>
                     <li class="nav-item me-4">
-                        <a class="nav-link" href="#">Checkout</a>
+                        <a class="nav-link" href="#"><i class="fas fa-shopping-cart me-2"></i>Checkout</a>
                     </li>
                     <li class="nav-item ms-lg-3">
-                        <button class="btn btn-success px-4 me-2" type="submit">Login</button>
+                        <button class="btn button-primary px-4 me-2" type="submit">Login</button>
                     </li>
                 </ul>
             </div>
