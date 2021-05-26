@@ -1,0 +1,35 @@
+.bg-image {
+  background-image: url("https://source.unsplash.com/WEQbe2jBg40/600x1200");
+  background-size: cover;
+  background-position: center;
+}
+
+@media (min-width: 768px) {
+  .h-md-100-v {
+    height: 100vh;
+  }
+  .h-md-100 {
+    height: 100vh;
+  }
+}
+
+.button-primary {
+  background-color: #2a4f96;
+  color: #ffffff;
+}
+
+.button-primary:hover {
+  background-color: #6a84b6;
+  color: #ffffff;
+}
+
+.button-secondary {
+  border-color: #2a4f96;
+  border-width: 1px;
+  color: #2a4f96;
+}
+
+.button-secondary:hover {
+  background-color: #2a4f96;
+  color: #ffffff;
+}
