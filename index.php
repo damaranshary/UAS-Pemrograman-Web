@@ -3,8 +3,8 @@ include "server/connection.php";
 session_start();
 
 //$query_permak = mysqli_query($connect, "SELECT * FROM users");
-$query_permak = mysqli_query($connect, "SELECT nama, image, keterangan, harga FROM jasa WHERE jenis = 'permak'");
-$query_buat = mysqli_query($connect, "SELECT nama, image, keterangan, harga FROM jasa WHERE jenis = 'jahitbaru'");
+$query_permak = mysqli_query($connect, "SELECT nama, image, keterangan, harga FROM jasa WHERE jenis = 'Permak'");
+$query_buat = mysqli_query($connect, "SELECT nama, image, keterangan, harga FROM jasa WHERE jenis = 'Jahit Baru'");
 
 ?>
 <!doctype html>
@@ -100,8 +100,8 @@ $query_buat = mysqli_query($connect, "SELECT nama, image, keterangan, harga FROM
                             while ($data_permak = mysqli_fetch_array($query_permak)) {
                                 echo "<div class=col>";
                                 echo "<div class=card>";
-                                echo "<img src=assets/img/$data_permak[image].jpg class='card-img-top' alt=...>";
-                                echo "<div class=card-body>";
+                                echo "<img src=assets/img/$data_permak[image].png class='card-img-top' alt=...>";
+                                echo "<div class='card-body'>";
                                 echo "<h5 class=card-title>$data_permak[nama]</h5>";
                                 echo "<p class=card-text>$data_permak[keterangan]</p>";
                                 echo "<p>Rp. $data_permak[harga]</p>";
@@ -120,7 +120,7 @@ $query_buat = mysqli_query($connect, "SELECT nama, image, keterangan, harga FROM
                             while ($data_buat = mysqli_fetch_array($query_buat)) {
                                 echo "<div class=col>";
                                 echo "<div class=card>";
-                                echo "<img src=assets/img/$data_buat[image] class=card-img-top alt=...>";
+                                echo "<img src=assets/img/$data_buat[image].png class=card-img-top alt=...>";
                                 echo "<div class=card-body>";
                                 echo "<h5 class=card-title>$data_buat[nama]</h5>";
                                 echo "<p class=card-text>$data_buat[keterangan]</p>";
