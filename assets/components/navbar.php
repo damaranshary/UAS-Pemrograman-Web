@@ -1,3 +1,6 @@
+<?php
+//
+?>
 <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
     <div class="container py-2 py-lg-3">
         <a class="navbar-brand" href="#">
@@ -17,8 +20,18 @@
                     <li class="nav-item me-4">
                         <a class="nav-link" href="#"><i class="fas fa-percentage me-2"></i>Promo</a>
                     </li>
-                    <li class="nav-item me-4">
-                        <a class="nav-link" href="#"><i class="fas fa-shopping-cart me-2"></i>Checkout</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-shopping-cart me-2"></i>Checkout
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDarkDropdownMenuLink">
+                            <?php
+                            include "server/cart_process.php";
+                            //echo $row['nama'];
+                            //echo $row['harga'];
+                            echo $jumlah;
+                            ?>
+                        </div>
                     </li>
                     <li class="nav-item ms-lg-3">
                         <button class="btn button-primary btn-primary px-4 me-2" type="submit">Login</button>

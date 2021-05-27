@@ -3,7 +3,7 @@ include "server/connection.php";
 session_start();
 
 //$query_permak = mysqli_query($connect, "SELECT * FROM users");
-$query_permak = mysqli_query($connect, "SELECT nama, image, keterangan, harga FROM jasa WHERE jenis = 'Permak'");
+$query_permak = mysqli_query($connect, "SELECT * FROM jasa WHERE jenis = 'Permak'");
 $query_buat = mysqli_query($connect, "SELECT nama, image, keterangan, harga FROM jasa WHERE jenis = 'Jahit Baru'");
 
 ?>
@@ -105,14 +105,16 @@ $query_buat = mysqli_query($connect, "SELECT nama, image, keterangan, harga FROM
                                 echo "<h5 class=card-title>$data_permak[nama]</h5>";
                                 echo "<p class=card-text>$data_permak[keterangan]</p>";
                                 echo "<p>Rp. $data_permak[harga]</p>";
+                                echo "<form action='server/cart_process.php?id=$data_permak[id]' method=POST>";
                                 echo "<div class='input-group mb-3'>";
-                                echo "<input type=text class=form-control placeholder=0 aria-label=Recipient's username aria-describedby=button-addon2>";
+                                echo "<input type=text class=form-control name='jumlah' id='jumlah' placeholder=0 aria-describedby=button-addon2>";
                                 echo "<button class='btn btn-outline-secondary' type=button id=button-add>+</button>";
                                 echo "<button class='btn btn-outline-secondary' type=button id=button-less>-</button>";
                                 echo "</div>";
                                 echo "<div class='d-grid'>";
-                                echo "<button class='btn btn-primary button-primary' type=button>Tambahkan</button>'";
+                                echo "<button class='btn btn-primary button-primary' type=submit>Tambahkan</button>'";
                                 echo "</div>";
+                                echo "</form>";
                                 echo "</div>";
                                 echo "</div>";
                                 echo "</div>";
