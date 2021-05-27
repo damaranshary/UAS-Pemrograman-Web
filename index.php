@@ -99,12 +99,20 @@ $query_buat = mysqli_query($connect, "SELECT nama, image, keterangan, harga FROM
                             $nomor = 0;
                             while ($data_permak = mysqli_fetch_array($query_permak)) {
                                 echo "<div class=col>";
-                                echo "<div class=card>";
+                                echo "<div class=card card-custom>";
                                 echo "<img src=assets/img/$data_permak[image].png class='card-img-top' alt=...>";
                                 echo "<div class='card-body'>";
                                 echo "<h5 class=card-title>$data_permak[nama]</h5>";
                                 echo "<p class=card-text>$data_permak[keterangan]</p>";
                                 echo "<p>Rp. $data_permak[harga]</p>";
+                                echo "<div class='input-group mb-3'>";
+                                echo "<input type=text class=form-control placeholder=0 aria-label=Recipient's username aria-describedby=button-addon2>";
+                                echo "<button class='btn btn-outline-secondary' type=button id=button-add>+</button>";
+                                echo "<button class='btn btn-outline-secondary' type=button id=button-less>-</button>";
+                                echo "</div>";
+                                echo "<div class='d-grid'>";
+                                echo "<button class='btn btn-primary button-primary' type=button>Tambahkan</button>'";
+                                echo "</div>";
                                 echo "</div>";
                                 echo "</div>";
                                 echo "</div>";
@@ -114,17 +122,25 @@ $query_buat = mysqli_query($connect, "SELECT nama, image, keterangan, harga FROM
                         </div>
                     </div>
                     <div class="tab-pane fade" id="pills-baru" role="tabpanel" aria-labelledby="pills-baru-tab">
-                        <div class="row mt-4 row-cols-2 row-cols-md-4">
+                        <div class="row mt-4 row-cols-2 row-cols-md-4 g-4">
                             <?php
                             $loop1 = 0;
                             while ($data_buat = mysqli_fetch_array($query_buat)) {
                                 echo "<div class=col>";
-                                echo "<div class=card>";
+                                echo "<div class=card style='border: 0px solid #ffffff;'>";
                                 echo "<img src=assets/img/$data_buat[image].png class=card-img-top alt=...>";
                                 echo "<div class=card-body>";
                                 echo "<h5 class=card-title>$data_buat[nama]</h5>";
                                 echo "<p class=card-text>$data_buat[keterangan]</p>";
                                 echo "<p>Rp. $data_buat[harga]</p>";
+                                echo "<div class='input-group mb-3'>";
+                                echo "<input type=text class=form-control placeholder=0 aria-label=Recipient's username aria-describedby=button-addon2>";
+                                echo "<button class='btn btn-outline-secondary' type=button id=button-add>+</button>";
+                                echo "<button class='btn btn-outline-secondary' type=button id=button-less>-</button>";
+                                echo "</div>";
+                                echo "<div class='d-grid'>";
+                                echo "<button class='btn btn-primary button-primary' type=button>Tambahkan</button>'";
+                                echo "</div>";
                                 echo "</div>";
                                 echo "</div>";
                                 echo "</div>";

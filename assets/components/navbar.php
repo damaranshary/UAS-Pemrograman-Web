@@ -21,7 +21,7 @@
                         <a class="nav-link" href="#"><i class="fas fa-shopping-cart me-2"></i>Checkout</a>
                     </li>
                     <li class="nav-item ms-lg-3">
-                        <button class="btn button-primary px-4 me-2" type="submit">Login</button>
+                        <button class="btn button-primary btn-primary px-4 me-2" type="submit">Login</button>
                     </li>
                 </ul>
             </div>
