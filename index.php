@@ -99,7 +99,7 @@ $query_buat = mysqli_query($connect, "SELECT nama, image, keterangan, harga FROM
                             $nomor = 0;
                             while ($data_permak = mysqli_fetch_array($query_permak)) {
                                 echo "<div class=col>";
-                                echo "<div class=card card-custom>";
+                                echo "<div class='card card-custom'>";
                                 echo "<img src=assets/img/$data_permak[image].png class='card-img-top' alt=...>";
                                 echo "<div class='card-body'>";
                                 echo "<h5 class=card-title>$data_permak[nama]</h5>";
@@ -107,9 +107,7 @@ $query_buat = mysqli_query($connect, "SELECT nama, image, keterangan, harga FROM
                                 echo "<p>Rp. $data_permak[harga]</p>";
                                 echo "<form action='server/cart_process.php?id=$data_permak[id]' method=POST>";
                                 echo "<div class='input-group mb-3'>";
-                                echo "<input type=text class=form-control name='jumlah' id='jumlah' placeholder=0 aria-describedby=button-addon2>";
-                                echo "<button class='btn btn-outline-secondary' type=button id=button-add>+</button>";
-                                echo "<button class='btn btn-outline-secondary' type=button id=button-less>-</button>";
+                                echo "<input type=number class=form-control name='jumlah' id='jumlah' placeholder=0 aria-describedby=button-addon2 required>";
                                 echo "</div>";
                                 echo "<div class='d-grid'>";
                                 echo "<button class='btn btn-primary button-primary' type=submit>Tambahkan</button>'";
