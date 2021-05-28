@@ -56,7 +56,7 @@ session_start(); ?>
                     <div class="row mb-3">
                         <div class="col">
                             <div class="d-grid">
-                                <button type="submit" class="btn button-primary">Login</button>
+                                <button type="submit" class="btn btn-primary button-primary">Login</button>
                             </div>
                         </div>
                         <div class="col">

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 27, 2021 at 09:51 AM
+-- Generation Time: May 28, 2021 at 11:47 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.11
 
@@ -20,6 +20,31 @@ SET time_zone = "+00:00";
 --
 -- Database: `uas_pweb`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `alamat`
+--
+
+CREATE TABLE `alamat` (
+  `id_alamat` int(11) NOT NULL,
+  `id_pengguna` int(11) NOT NULL,
+  `label` varchar(30) NOT NULL,
+  `nama_penerima` varchar(30) NOT NULL,
+  `telepon` varchar(20) NOT NULL,
+  `alamat` varchar(300) NOT NULL,
+  `area` varchar(30) NOT NULL,
+  `kodepos` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `alamat`
+--
+
+INSERT INTO `alamat` (`id_alamat`, `id_pengguna`, `label`, `nama_penerima`, `telepon`, `alamat`, `area`, `kodepos`) VALUES
+(1, 1, 'Rumah', 'irr', '091', 'rumah', 'Cibiru', '1252'),
+(2, 1, 'Rumah', 'irr', '091', 'rumah', 'Cibiru', '1252');
 
 -- --------------------------------------------------------
 
@@ -72,12 +97,18 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`) VALUES
-(1, 'Admin', 'admin@email.com', '$2y$10$cdHnN4XEvVZqmciAdFoJfeaooRZ7PrDm.TZGvG7Xnf5u4HWQu4jNG'),
-(2, 'admin2', 'admin2@email.com', '$2y$10$VDmSLwmBGTaZh3fx54ZVeuhNsjNxForR2wyb8AOdwBBWMHfsO4psy');
+(1, 'Admin', 'admin@email.com', '$2y$10$cdHnN4XEvVZqmciAdFoJfeaooRZ7PrDm.TZGvG7Xnf5u4HWQu4jNG');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `alamat`
+--
+ALTER TABLE `alamat`
+  ADD PRIMARY KEY (`id_alamat`),
+  ADD KEY `id_pengguna` (`id_pengguna`);
 
 --
 -- Indexes for table `jasa`
@@ -96,6 +127,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `alamat`
+--
+ALTER TABLE `alamat`
+  MODIFY `id_alamat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `jasa`
 --
 ALTER TABLE `jasa`
@@ -105,7 +142,17 @@ ALTER TABLE `jasa`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `alamat`
+--
+ALTER TABLE `alamat`
+  ADD CONSTRAINT `alamat_ibfk_1` FOREIGN KEY (`id_pengguna`) REFERENCES `users` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

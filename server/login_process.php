@@ -11,13 +11,12 @@ $row = mysqli_fetch_assoc($query);
 $solve_password = $row["password"];
 
 if ($jum_data > 0) {
-    echo $solve_password;
     if (password_verify($password, $solve_password)) {
         # code...
         $_SESSION['email'] = $email;
         $_SESSION['status'] = "Login success!";
 
-        //setcookie($_SESSION['email'], $email, time() + 60000);
+        setcookie($_SESSION['email'], $email, time() + 60000);
 
         header("location: ../index.php");
     } else {
