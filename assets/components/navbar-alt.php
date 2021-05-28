@@ -1,4 +1,4 @@
-`<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
     <div class="container py-2 py-lg-3">
         <a class="navbar-brand" href="index.php">
             <img src="assets/img/logo.svg" alt="" width="100" height="">

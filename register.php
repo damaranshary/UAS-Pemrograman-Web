@@ -61,7 +61,6 @@ session_start(); ?>
                             </div>
                         </div>
                     </div>
-                    <a href="index.php" class="text-black-50" style="text-decoration: none;"><i class="fas fa-chevron-left me-2"></i>Return to homepage</a>
                 </form>
             </div>
         </div>
