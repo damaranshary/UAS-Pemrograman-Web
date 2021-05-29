@@ -115,18 +115,22 @@ $query_permak = mysqli_query($connect, "SELECT * FROM jasa WHERE jenis = 'Permak
                                     </div>
                                     <span class="border-bottom"></span>
                                 </div>
-                                <div class ="row">
+                                <div class="row">
                                     <div class="col-auto me-auto">Total Harga</div>
                                     <div class="col-auto">Rp. 380000</div>
                                 </div>
-                                <div class ="row">
+                                <div class="row">
                                     <div class="col-auto me-auto">Harga Pengiriman</div>
                                     <div class="col-auto">Rp. 17000</div>
                                     <span class="border-bottom"></span>
                                 </div>
                                 <div class="row">
-                                    <div class="col-auto me-auto"><br><h5>Total Harga</h5></div>
-                                    <div class="col-auto"><br><h5 style="color: #198754">Rp. 397000</h5></div>
+                                    <div class="col-auto me-auto"><br>
+                                        <h5>Total Harga</h5>
+                                    </div>
+                                    <div class="col-auto"><br>
+                                        <h5 style="color: #198754">Rp. 397000</h5>
+                                    </div>
                                 </div>
 
                             </div>
