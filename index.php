@@ -6,6 +6,7 @@ session_start();
 $query_permak = mysqli_query($connect, "SELECT * FROM jasa WHERE jenis = 'Permak'");
 $query_buat = mysqli_query($connect, "SELECT nama, image, keterangan, harga FROM jasa WHERE jenis = 'Jahit Baru'");
 
+$email = $_SESSION['email'];
 //username & role sessionnya kosong!
 if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
     header("location: login.php");
@@ -109,7 +110,7 @@ if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
                                     echo "<h5 class=card-title>$data_permak[nama]</h5>";
                                     echo "<p class=card-text>$data_permak[keterangan]</p>";
                                     echo "<p>Rp. $data_permak[harga]</p>";
-                                    echo "<form action='server/cart_process.php?id=$data_permak[id]' method=POST>";
+                                    echo "<form action='server/cart_process.php?id=$data_permak[id]&email=$email' method=POST>";
                                     echo "<div class='input-group mb-3'>";
                                     echo "<input type=number class=form-control name='jumlah' id='jumlah' placeholder=0 aria-describedby=button-addon2 required min=0 onkeypress='return isNumberKey(event)'>";
                                     echo "</div>";

@@ -26,7 +26,7 @@ $name = $row["name"];
                         <a class="nav-link" href="#promo.php"><i class="fas fa-percentage me-2"></i>Promo</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#checkout.php">
+                        <a class="nav-link" href="checkout.php">
                             <i class="fas fa-shopping-cart me-2"></i>Checkout
                         </a>
                     </li>

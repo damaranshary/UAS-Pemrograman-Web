@@ -2,10 +2,13 @@
 include "connection.php";
 // insert ke tabel transaksi
 $jumlah = $_POST['jumlah'];
-$id = mysqli_real_escape_string($connect, $_GET['id']);
-$query = 'SELECT nama, harga  FROM jasa WHERE id = ' . $id . '';
-$result = mysqli_query($connect, $query);
-$row = mysqli_fetch_array($result);
+$email = mysqli_real_escape_string($connect, $_GET['email']);
 
-echo $jumlah;
-echo $row['harga'];
+$query_getid = mysqli_query($connect, "SELECT id FROM users WHERE email='$email'");
+$row = mysqli_fetch_assoc($query_getid);
+$id_pengguna = $row['id'];
+$id_barang = mysqli_real_escape_string($connect, $_GET['id']);
+$query = "INSERT INTO keranjang (id_pengguna, id_jasa, jumlah) VALUES ('$id_pengguna', '$id_barang', '$jumlah')";
+mysqli_query($connect, $query);
+
+header('location: ../index.php');

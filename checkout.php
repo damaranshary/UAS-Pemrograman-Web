@@ -30,12 +30,12 @@ $query_permak = mysqli_query($connect, "SELECT * FROM jasa WHERE jenis = 'Permak
     <main>
         <div class="container">
             <div class="row">
-                <div class="col-8">
-                    <div class="heading">
-                        <h3>Detil Alamat<h3>
-                    </div>
-                    <div class="col">
-                        <div class="p-3 card card-custom">
+                <div class="col">
+                    <div class="row">
+                        <div class="heading mb-4">
+                            <h3>Detail Alamat<h3>
+                        </div>
+                        <div class="px-3 py-2 card" style="border-radius: 10px; transition: 0.3s;">
                             <div class="card-body">
                                 <?php
                                 $id = $data_getprofile['id'];
@@ -49,22 +49,31 @@ $query_permak = mysqli_query($connect, "SELECT * FROM jasa WHERE jenis = 'Permak
                                         Telepon       : $data_getalamat[telepon]<br>
                                         Alamat        : $data_getalamat[alamat]<br>
                                         Area          : $data_getalamat[area]<br>
-                                        Kode Pos      : $data_getalamat[kodepos]<br>
+                                        Kode Pos      : $data_getalamat[kodepos]
                                         </p>";
                                 echo "<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#changeAddress'>Ganti Alamat</button>";
                                 echo "</div>";
-                                echo "</p>";
                                 ?>
-                                <div class="col justify-content-end">
-                                    <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Pengiriman</button>
-                                    <ul class='dropdown-menu'>
-                                        <li><a class='dropdown-item' href='#'>Action</a></li>
-                                        <li><a class='dropdown-item' href='#'>Action</a></li>
-                                    </ul>
-                                </div>
                             </div>
                         </div>
+
                     </div>
+                    <div class="row mt-2">
+                        <div class="heading mb-4">
+                            <h3>Instruksi<h3>
+                        </div>
+                        <div class="p-1">
+                            <p>Masukan detail pengerjaan untuk jasa yang anda pilih</p>
+                        </div>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" style="resize: none;"></textarea>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="heading mb-4">
+                            <h3>Waktu Pengambilan<h3>
+                        </div>
+
+                    </div>
+
                     <div class='modal fade' id='changeAddress' tabindex='-1' aria-labelledby='changeAddressLabel' aria-hidden='true'>
                         <div class='modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable'>
                             <div class='modal-content'>
@@ -84,36 +93,30 @@ $query_permak = mysqli_query($connect, "SELECT * FROM jasa WHERE jenis = 'Permak
                     </div>
 
                 </div>
-                <div class="col-4">
-                    <div class="heading">
-                        <h3>Detil Barang</h3>
+                <div class="col">
+                    <div class="heading mb-4">
+                        <h3>Detail Barang</h3>
                     </div>
                     <div class=col>
-                        <div class="p-3 card card-custom">
+                        <div class="p-3 card" style="border-radius: 10px; transition: 0.3s;">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-4">
-                                        <img src="assets/img/kaos-jahitbaru.png" class="card-img" alt=...>
-                                    </div>
-                                    <div class="col-8">
-                                        <h5 class=card-title>Kaos - Jahit Baru</h5>
-                                        <p class=card-text>
-                                            1 buah <br>
-                                            Rp. 200000 <br>
-                                        </p>
-                                    </div>
-                                    <span class="border-bottom"></span>
-                                    <div class="col-4">
-                                        <img src="assets/img/kemejapendek-permak.png" class="card-img" alt=...>
-                                    </div>
-                                    <div class="col-8">
-                                        <h5 class=card-title>Kemeja Pendek - Permak</h5>
-                                        <p class=card-text>
-                                            2 buah <br>
-                                            Rp. 180000
-                                        </p>
-                                    </div>
-                                    <span class="border-bottom"></span>
+                                    <?php
+                                    $query_getcart = mysqli_query($connect, "SELECT b.nama AS nama, b.image as image, b.harga * a.jumlah AS harga, a.jumlah as jumlah FROM keranjang a INNER JOIN jasa b ON a.id_jasa = b.id WHERE a.id_pengguna='$id'");
+
+                                    while ($data_getcart = mysqli_fetch_array($query_getcart)) {
+                                        echo "<div class=col-4>";
+                                        echo "<img src='https://storage.googleapis.com/uaspweb/img/$data_getcart[image].png' class='card-img' alt=...>";
+                                        echo "</div>";
+                                        echo "<div class=col-8>";
+                                        echo "<h5 class=card-title>$data_getcart[nama]</h5>";
+                                        echo "<p class=card-text>";
+                                        echo "$data_getcart[jumlah] buah <br>";
+                                        echo "Rp. $data_getcart[harga] <br></p>";
+                                        echo "</div>";
+                                        echo "<span class=border-bottom></span>";
+                                    }
+                                    ?>
                                 </div>
                                 <div class="row">
                                     <div class="col-auto me-auto">Total Harga</div>
