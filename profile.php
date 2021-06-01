@@ -10,6 +10,15 @@ mysqli_next_result($connect);
 $query_getalamat = mysqli_query($connect, "CALL getAlamatID('$id')");
 $alamat_status = mysqli_num_rows($query_getalamat);
 
+$status_tambah = mysqli_real_escape_string($connect, $_GET['status']);
+if (empty($status_tambah)) {
+    $alert = "";
+} else {
+    $alert = "<div class='alert alert-warning alert-dismissible fade show' role='alert'>
+    Masukan alamat dengan label yang berbeda
+    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+    </div>";
+}
 //username & role sessionnya kosong!
 if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
     header("location: login.php");
@@ -31,7 +40,8 @@ if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
         include "assets/components/navbar-profil.php"
         ?>
         <main>
-            <div class="container my-5">
+            <div class="container mt-3 mb-5">
+                <?php echo "$alert" ?>
                 <a href="index.php" class="text-black-50 mt-5" style="text-decoration: none;"><i class="fas fa-chevron-left me-2"></i>Kembali ke halaman utama</a>
                 <h3 class="mt-4">Profile</h3>
                 <form class="mt-4">
@@ -64,7 +74,7 @@ if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
                     $nomor = 0;
                     while ($data_getalamat = mysqli_fetch_array($query_getalamat)) {
                         echo "<div class=col>";
-                        echo "<div class='card card-custom'>";
+                        echo "<div class='card card-custom h-100'>";
                         echo "<div class='card-body'>";
                         echo "<h5 class=card-title>$data_getalamat[label]</h5>";
                         echo "<p class=card-text>
@@ -74,7 +84,9 @@ if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
                         Area          : $data_getalamat[area]<br>
                         Kode Pos      : $data_getalamat[kodepos]<br>
                         </p>";
-                        echo "<button class='btn btn-danger'>Hapus</button>";
+                        echo "<form method=POST action=server/deletealamat_process.php?id=$data_getalamat[id_alamat] class=mb-2>";
+                        echo "<button type=submit class='btn btn-danger'>Hapus</button>";
+                        echo "</form>";
                         echo "</div>";
                         echo "</div>";
                         echo "</div>";
@@ -97,7 +109,7 @@ if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
                                 <form action="server/add-address_process.php" method="POST">
                                     <!-- Name input -->
                                     <div class="form-outline mb-3">
-                                        <label class="form-label" for="labelalamat">Label Alamat</label>
+                                        <label class="form-label" for="labelalamat">Label Alamat (Label alamat harus berbeda)</label>
                                         <input type="text" name="label" id="label" class="form-control" required />
                                     </div>
                                     <div class="row">
@@ -157,6 +169,9 @@ if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
                 </div>
             </div>
         </main>
+        <?php
+        include "assets/components/footer.php";
+        ?>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
     </body>
 <?php

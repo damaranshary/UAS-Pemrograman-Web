@@ -11,13 +11,18 @@ $area = $_POST['area'];
 $kodepos = $_POST['kodepos'];
 
 
-
-
 $query_getid = mysqli_query($connect, "SELECT id FROM users WHERE email='$email'");
 $row = mysqli_fetch_assoc($query_getid);
 $id_pengguna = $row['id'];
+
+$query_getalamat = mysqli_query($connect, "SELECT * FROM alamat WHERE id_pengguna='$id_pengguna' AND label='$label'");
+$alamat_status = mysqli_num_rows($query_getalamat);
+
+if ($alamat_status == 0) {
+    mysqli_query($connect, "CALL insertAlamat('$id_pengguna', '$label', '$namapenerima',  '$telepon', '$alamat', '$area', '$kodepos')");
+    header('location: ../profile.php');
+} else {
+    header('location: ../profile.php?status=fail');
+}
+
 //echo "$id_pengguna, $email, $label, $namapenerima, $telepon, $alamat, $area, $kodepos";
-
-
-mysqli_query($connect, "CALL insertAlamat('$id_pengguna', '$label', '$namapenerima',  '$telepon', '$alamat', '$area', '$kodepos')");
-header('location: ../profile.php');
