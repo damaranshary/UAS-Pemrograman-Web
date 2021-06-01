@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 01, 2021 at 10:00 AM
+-- Generation Time: Jun 01, 2021 at 11:29 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.2.34
 
@@ -20,6 +20,24 @@ SET time_zone = "+00:00";
 --
 -- Database: `uas_pweb`
 --
+
+DELIMITER $$
+--
+-- Procedures
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertAlamat` (`idPeng` INT, `in_label` VARCHAR(30), `in_namaPenerima` VARCHAR(20), `in_telp` VARCHAR(20), `in_alamat` VARCHAR(300), `in_area` VARCHAR(30), `in_kodePos` VARCHAR(10))  begin
+INSERT INTO alamat (id_pengguna, label, nama_penerima, telepon, alamat, area, kodepos) values (idPeng, in_label, in_namaPenerima, in_telp, in_alamat, in_area, in_kodePos);
+end$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertUsers` (`in_name` VARCHAR(60), `in_email` VARCHAR(60), `in_password` CHAR(80))  begin
+insert into users(name, email, password) values(in_name, in_email, in_password);
+end$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `registrasi` (`in_name` VARCHAR(60), `in_email` VARCHAR(60), `in_password` CHAR(80))  begin
+insert into users (name, email, password) values (in_name, in_email, in_password);
+end$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -125,7 +143,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`) VALUES
-(1, 'Admin', 'admin@email.com', '$2y$10$cdHnN4XEvVZqmciAdFoJfeaooRZ7PrDm.TZGvG7Xnf5u4HWQu4jNG');
+(1, 'Admin', 'admin@email.com', '$2y$10$cdHnN4XEvVZqmciAdFoJfeaooRZ7PrDm.TZGvG7Xnf5u4HWQu4jNG'),
+(13, 'gaga', 'gaga', 'gaga');
 
 --
 -- Indexes for dumped tables
@@ -173,7 +192,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `alamat`
 --
 ALTER TABLE `alamat`
-  MODIFY `id_alamat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_alamat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `jasa`
@@ -191,7 +210,7 @@ ALTER TABLE `transaksi`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Constraints for dumped tables
