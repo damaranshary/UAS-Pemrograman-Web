@@ -18,16 +18,16 @@ if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
         <?php
         include "assets/components/header.php"
         ?>
-        <link rel="stylesheet" href="assets/css/style.css">h
-        <title>Hello, world!</title>
+        <link rel="stylesheet" href="assets/css/style.css">
+        <title>Profil</title>
     </head>
 
     <body>
         <?php
-        include "assets/components/navbar-alt.php"
+        include "assets/components/navbar-profil.php"
         ?>
         <main>
-            <div class="container">
+            <div class="container mt-4">
                 <a href="index.php" class="text-black-50" style="text-decoration: none;"><i class="fas fa-chevron-left me-2"></i>Return to homepage</a>
                 <h3 class="mt-4">Profile</h3>
                 <form class="mt-4">
@@ -58,7 +58,7 @@ if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
                     echo "<p class=card-text>Alamat Kosong</p>";
                     echo "</div>";
                 } else {
-                    echo "<div class=row>";
+                    echo "<div class='row row-cols-2 row-cols-md-4 g-4'>";
                     $nomor = 0;
                     while ($data_getalamat = mysqli_fetch_array($query_getalamat)) {
                         echo "<div class=col>";

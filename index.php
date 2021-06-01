@@ -4,7 +4,7 @@ session_start();
 
 //$query_permak = mysqli_query($connect, "SELECT * FROM users");
 $query_permak = mysqli_query($connect, "SELECT * FROM jasa WHERE jenis = 'Permak'");
-$query_buat = mysqli_query($connect, "SELECT nama, image, keterangan, harga FROM jasa WHERE jenis = 'Jahit Baru'");
+$query_buat = mysqli_query($connect, "SELECT * FROM jasa WHERE jenis = 'Jahit Baru'");
 
 $email = $_SESSION['email'];
 //username & role sessionnya kosong!
@@ -20,7 +20,7 @@ if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
         include "assets/components/header.php"
         ?>
         <link rel="stylesheet" href="assets/css/style.css">
-        <title>Hello, world!</title>
+        <title>Homepage</title>
     </head>
 
     <body>
@@ -101,7 +101,6 @@ if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
                         <div class="tab-pane fade show active" id="pills-permak" role="tabpanel" aria-labelledby="pills-permak-tab">
                             <div class="row my-4 row-cols-2 row-cols-md-4 g-4">
                                 <?php
-                                $nomor = 0;
                                 while ($data_permak = mysqli_fetch_array($query_permak)) {
                                     echo "<div class=col>";
                                     echo "<div class='card card-custom'>";
@@ -115,13 +114,12 @@ if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
                                     echo "<input type=number class=form-control name='jumlah' id='jumlah' placeholder=0 aria-describedby=button-addon2 required min=0 onkeypress='return isNumberKey(event)'>";
                                     echo "</div>";
                                     echo "<div class='d-grid'>";
-                                    echo "<button class='btn btn-primary button-primary' type=submit>Tambahkan</button>'";
+                                    echo "<button class='btn btn-primary' type=submit>Tambahkan</button>'";
                                     echo "</div>";
                                     echo "</form>";
                                     echo "</div>";
                                     echo "</div>";
                                     echo "</div>";
-                                    $nomor++;
                                 }
                                 ?>
                             </div>
@@ -129,7 +127,6 @@ if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
                         <div class="tab-pane fade" id="pills-baru" role="tabpanel" aria-labelledby="pills-baru-tab">
                             <div class="row mt-4 row-cols-2 row-cols-md-4 g-4">
                                 <?php
-                                $loop1 = 0;
                                 while ($data_buat = mysqli_fetch_array($query_buat)) {
                                     echo "<div class=col>";
                                     echo "<div class=card style='border: 0px solid #ffffff;'>";
@@ -138,16 +135,17 @@ if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
                                     echo "<h5 class=card-title>$data_buat[nama]</h5>";
                                     echo "<p class=card-text>$data_buat[keterangan]</p>";
                                     echo "<p>Rp. $data_buat[harga]</p>";
+                                    echo "<form action='server/cart_process.php?id=$data_buat[id]&email=$email' method=POST>";
                                     echo "<div class='input-group mb-3'>";
-                                    echo "<input type=number class=form-control placeholder=0 aria-label=Recipient's username aria-describedby=button-addon2 required min=0 onkeypress='return isNumberKey(event)'>";
+                                    echo "<input type=number class=form-control name='jumlah' id='jumlah' placeholder=0 aria-describedby=button-addon2 required min=0 onkeypress='return isNumberKey(event)'>";
                                     echo "</div>";
                                     echo "<div class='d-grid'>";
-                                    echo "<button class='btn btn-primary button-primary' type=button>Tambahkan</button>'";
+                                    echo "<button class='btn btn-primary' type=submit>Tambahkan</button>'";
+                                    echo "</div>";
+                                    echo "</form>";
                                     echo "</div>";
                                     echo "</div>";
                                     echo "</div>";
-                                    echo "</div>";
-                                    $loop1++;
                                 }
                                 ?>
                             </div>

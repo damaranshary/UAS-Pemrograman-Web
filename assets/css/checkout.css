@@ -35,17 +35,6 @@ body {
   margin-bottom: 10px;
 }
 
-.button-primary {
-  background-color: #2a4f96;
-  color: #fefefe;
-  font-weight: 400;
-}
-
-.button-primary:hover {
-  background-color: #6a84b6 !important;
-  color: #fefefe !important;
-}
-
 .nav-link {
   color: black;
 }

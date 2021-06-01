@@ -1,3 +1,11 @@
+<?php
+include "server/connection.php";
+$email = $_SESSION['email'];
+$query = mysqli_query($connect, "SELECT name FROM users WHERE email='$email'");
+$row = mysqli_fetch_assoc($query);
+$name = $row["name"];
+
+?>
 <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
     <div class="container py-2 py-lg-3">
         <a class="navbar-brand" href="index.php">
@@ -18,11 +26,18 @@
                         <a class="nav-link" href="#promo.php"><i class="fas fa-percentage me-2"></i>Promo</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#checkout.php">
+                        <a class="nav-link active" href="checkout.php">
                             <i class="fas fa-shopping-cart me-2"></i>Checkout
                         </a>
                     </li>
-
+                    <li class="nav-item dropdown ms-lg-3">
+                        <!-- <button class="btn button-primary btn-primary px-4 me-2" type="submit">Login</button> -->
+                        <a class="nav-link" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user me-2"></i><?php echo "$name" ?></a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="profile.php">Profile</a></li>
+                            <li><a class="dropdown-item" href="server/logout_process.php">Logout</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>

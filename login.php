@@ -56,12 +56,12 @@ session_start(); ?>
                     <div class="row mb-3">
                         <div class="col">
                             <div class="d-grid">
-                                <button type="submit" class="btn btn-primary button-primary">Login</button>
+                                <button type="submit" class="btn btn-primary">Login</button>
                             </div>
                         </div>
                         <div class="col">
                             <div class="d-grid">
-                                <a href="register.php" class="btn button-secondary">Register</a>
+                                <a href="register.php" class="btn btn-outline-primary">Register</a>
                             </div>
                         </div>
                     </div>

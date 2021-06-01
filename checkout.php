@@ -19,19 +19,18 @@ $query_permak = mysqli_query($connect, "SELECT * FROM jasa WHERE jenis = 'Permak
     include "assets/components/header.php"
     ?>
     <link rel="stylesheet" href="assets/css/checkout.css">
-    <title>Hello, world!</title>
-    <title>Document</title>
+    <title>Checkout</title>
 </head>
 
 <body>
     <?php
-    include "assets/components/navbar-alt.php"
+    include "assets/components/navbar-checkout.php"
     ?>
     <main>
         <div class="container">
             <div class="row">
-                <div class="col">
-                    <div class="row">
+                <div class="col me-3">
+                    <div class="row ms-3 ms-md-auto">
                         <div class="heading mb-4">
                             <h3>Detail Alamat<h3>
                         </div>
@@ -58,7 +57,7 @@ $query_permak = mysqli_query($connect, "SELECT * FROM jasa WHERE jenis = 'Permak
                         </div>
 
                     </div>
-                    <div class="row mt-2">
+                    <div class="row mt-2 ms-3 ms-md-auto">
                         <div class="heading mb-4">
                             <h3>Instruksi<h3>
                         </div>
@@ -67,10 +66,15 @@ $query_permak = mysqli_query($connect, "SELECT * FROM jasa WHERE jenis = 'Permak
                         </div>
                         <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" style="resize: none;"></textarea>
                     </div>
-                    <div class="row mt-2">
+
+                    <div class="row mt-2 mb-5 ms-3 ms-md-auto">
                         <div class="heading mb-4">
-                            <h3>Waktu Pengambilan<h3>
+                            <h3>Waktu Pengambilan</h3>
                         </div>
+                        <div class="p-1">
+                            <p>Tentukan waktu pengambilan pakaian untuk jasa yang anda gunakan</p>
+                        </div>
+                        <input class="form-control" type="datetime-local" id="meeting-time" name="meeting-time">
 
                     </div>
 
@@ -93,7 +97,7 @@ $query_permak = mysqli_query($connect, "SELECT * FROM jasa WHERE jenis = 'Permak
                     </div>
 
                 </div>
-                <div class="col">
+                <div class="col ms-3 mb-5">
                     <div class="heading mb-4">
                         <h3>Detail Barang</h3>
                     </div>
@@ -102,29 +106,34 @@ $query_permak = mysqli_query($connect, "SELECT * FROM jasa WHERE jenis = 'Permak
                             <div class="card-body">
                                 <div class="row">
                                     <?php
-                                    $query_getcart = mysqli_query($connect, "SELECT b.nama AS nama, b.image as image, b.harga * a.jumlah AS harga, a.jumlah as jumlah FROM keranjang a INNER JOIN jasa b ON a.id_jasa = b.id WHERE a.id_pengguna='$id'");
-
+                                    $pengiriman = 5000;
+                                    $query_getcart = mysqli_query($connect, "SELECT a.id AS id_keranjang, b.nama AS nama, b.jenis AS jenis, b.image AS image, b.harga * a.jumlah AS harga, a.jumlah AS jumlah FROM keranjang a INNER JOIN jasa b ON a.id_jasa = b.id WHERE a.id_pengguna='$id'");
+                                    $biayajasa = 0;
                                     while ($data_getcart = mysqli_fetch_array($query_getcart)) {
                                         echo "<div class=col-4>";
                                         echo "<img src='https://storage.googleapis.com/uaspweb/img/$data_getcart[image].png' class='card-img' alt=...>";
                                         echo "</div>";
                                         echo "<div class=col-8>";
-                                        echo "<h5 class=card-title>$data_getcart[nama]</h5>";
+                                        echo "<h5 class=card-title>$data_getcart[nama] - $data_getcart[jenis]</h5>";
                                         echo "<p class=card-text>";
                                         echo "$data_getcart[jumlah] buah <br>";
                                         echo "Rp. $data_getcart[harga] <br></p>";
+                                        echo "<form id=form method=POST action='server/deletecart_process.php?id=$data_getcart[id_keranjang]'></form>";
+                                        echo "<button class='btn btn-primary' form=form type=submit>Hapus</button>";
                                         echo "</div>";
                                         echo "<span class=border-bottom></span>";
+                                        $biayajasa = $biayajasa + $data_getcart['harga'];
                                     }
                                     ?>
                                 </div>
+
                                 <div class="row">
                                     <div class="col-auto me-auto">Total Harga</div>
-                                    <div class="col-auto">Rp. 380000</div>
+                                    <div class="col-auto"><?php echo "Rp. $biayajasa" ?></div>
                                 </div>
                                 <div class="row">
                                     <div class="col-auto me-auto">Harga Pengiriman</div>
-                                    <div class="col-auto">Rp. 17000</div>
+                                    <div class="col-auto"><?php echo "Rp. $pengiriman" ?></div>
                                     <span class="border-bottom"></span>
                                 </div>
                                 <div class="row">
@@ -132,7 +141,8 @@ $query_permak = mysqli_query($connect, "SELECT * FROM jasa WHERE jenis = 'Permak
                                         <h5>Total Harga</h5>
                                     </div>
                                     <div class="col-auto"><br>
-                                        <h5 style="color: #198754">Rp. 397000</h5>
+                                        <h5 style="color: #198754"><?php $total = $biayajasa + $pengiriman;
+                                                                    echo "Rp. $total"; ?></h5>
                                     </div>
                                 </div>
 
