@@ -36,22 +36,39 @@ $query_permak = mysqli_query($connect, "SELECT * FROM jasa WHERE jenis = 'Permak
                         </div>
                         <div class="px-3 py-2 card" style="border-radius: 10px; transition: 0.3s;">
                             <div class="card-body">
+                                <p class="d-none"><?php $id_alamat = mysqli_real_escape_string($connect, $_GET['id_alamat']); ?></p>
                                 <?php
                                 $id = $data_getprofile['id'];
-                                $query_getalamat = mysqli_query($connect, "SELECT * from alamat WHERE id_pengguna = '$id'");
-                                $alamat_status = mysqli_num_rows($query_getalamat);
-                                $data_getalamat = mysqli_fetch_array($query_getalamat);
-                                echo "<div class=col>";
-                                echo "<h5 class=card-title>$data_getalamat[label]</h5>";
-                                echo "<p class=card-text>
+                                if (empty($id_alamat)) {
+                                    $query_getalamat_default = mysqli_query($connect, "SELECT * from alamat WHERE id_pengguna = '$id'");
+                                    $data_getalamat_default = mysqli_fetch_array($query_getalamat_default);
+                                    echo "<div class=col>";
+                                    echo "<h5 class=card-title>$data_getalamat_default[label]</h5>";
+                                    echo "<p class=card-text>
+                                        Nama Penerima : $data_getalamat_default[nama_penerima]<br>
+                                        Telepon       : $data_getalamat_default[telepon]<br>
+                                        Alamat        : $data_getalamat_default[alamat]<br>
+                                        Area          : $data_getalamat_default[area]<br>
+                                        Kode Pos      : $data_getalamat_default[kodepos]
+                                        </p>";
+                                    echo "<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#changeAddress'>Ganti Alamat</button>";
+                                    echo "</div>";
+                                } else {
+                                    $query_getalamat = mysqli_query($connect, "SELECT * from alamat WHERE id_pengguna = '$id' AND id_alamat='$id_alamat'");
+                                    $data_getalamat = mysqli_fetch_array($query_getalamat);
+                                    echo "<div class=col>";
+                                    echo "<h5 class=card-title>$data_getalamat[label]</h5>";
+                                    echo "<p class=card-text>
                                         Nama Penerima : $data_getalamat[nama_penerima]<br>
                                         Telepon       : $data_getalamat[telepon]<br>
                                         Alamat        : $data_getalamat[alamat]<br>
                                         Area          : $data_getalamat[area]<br>
                                         Kode Pos      : $data_getalamat[kodepos]
                                         </p>";
-                                echo "<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#changeAddress'>Ganti Alamat</button>";
-                                echo "</div>";
+                                    echo "<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#changeAddress'>Ganti Alamat</button>";
+                                    echo "</div>";
+                                }
+
                                 ?>
                             </div>
                         </div>
@@ -86,46 +103,37 @@ $query_permak = mysqli_query($connect, "SELECT * FROM jasa WHERE jenis = 'Permak
                                     <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
                                 </div>
                                 <div class='modal-body'>
-                                <?php
-                $id = $data_getprofile['id'];
-                $query_getalamat = mysqli_query($connect, "SELECT * from alamat WHERE id_pengguna = '$id'");
-                $alamat_status = mysqli_num_rows($query_getalamat);
-
-                if ($alamat_status == 0) {
-                    echo "<div class=col>";
-                    echo "<div class='card card-custom'>";
-                    echo "<div class='card-body'>";
-                    echo "<h5 class=card-title>Tidak ada alamat</h5>";
-                    echo "<p class=card-text>Alamat Kosong</p>";
-                    echo "</div>";
-                } else {
-                    echo "<div class='row row-cols-2 row-cols-md-4 g-4'>";
-                    $nomor = 0;
-                    while ($data_getalamat = mysqli_fetch_array($query_getalamat)) {
-                        echo "<div class=col>";
-                        echo "<div class='card card-custom'>";
-                        echo "<div class='card-body'>";
-                        echo "<h5 class=card-title>$data_getalamat[label]</h5>";
-                        echo "<p class=card-text>
-                        Nama Penerima : $data_getalamat[nama_penerima]<br>
-                        Telepon       : $data_getalamat[telepon]<br>
-                        Alamat        : $data_getalamat[alamat]<br>
-                        Area          : $data_getalamat[area]<br>
-                        Kode Pos      : $data_getalamat[kodepos]<br>
-                        </p>";
-                        echo "<button class='btn btn-danger'>Hapus</button>";
-                        echo "</div>";
-                        echo "</div>";
-                        echo "</div>";
-                        $nomor++;
-                    }
-                    echo "</div>";
-                }
-                ?>
+                                    <?php
+                                    $id = $data_getprofile['id'];
+                                    $query_getalamat = mysqli_query($connect, "SELECT * from alamat WHERE id_pengguna = '$id'");
+                                    echo "<div class='row row-cols-2 g-4'>";
+                                    $nomor = 0;
+                                    while ($data_getalamat = mysqli_fetch_array($query_getalamat)) {
+                                        echo "<div class=col>";
+                                        echo "<form method=POST action=checkout.php?id_alamat=$data_getalamat[id_alamat] class=mb-2>";
+                                        echo "<button type=submit class='btn btn-primary'>Pilih alamat ini</button>";
+                                        echo "</form>";
+                                        echo "<div class='card card-custom'>";
+                                        echo "<div class='card-body'>";
+                                        echo "<h5 class=card-title>$data_getalamat[label]</h5>";
+                                        echo "<p class=card-text>
+                                        Nama Penerima : $data_getalamat[nama_penerima]<br>
+                                        Telepon       : $data_getalamat[telepon]<br>
+                                        Alamat        : $data_getalamat[alamat]<br>
+                                        Area          : $data_getalamat[area]<br>
+                                        Kode Pos      : $data_getalamat[kodepos]<br>
+                                        </p>";
+                                        echo "</div>";
+                                        echo "</div>";
+                                        echo "</div>";
+                                        $nomor++;
+                                    }
+                                    echo "</div>";
+                                    ?>
                                 </div>
                                 <div class='modal-footer'>
                                     <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Close</button>
-                                    <button type='button' class='btn btn-primary'>Save changes</button>
+
                                 </div>
                             </div>
                         </div>
@@ -153,8 +161,9 @@ $query_permak = mysqli_query($connect, "SELECT * FROM jasa WHERE jenis = 'Permak
                                         echo "<p class=card-text>";
                                         echo "$data_getcart[jumlah] buah <br>";
                                         echo "Rp. $data_getcart[harga] <br></p>";
-                                        echo "<form id=form method=POST action='server/deletecart_process.php?id=$data_getcart[id_keranjang]'></form>";
-                                        echo "<button class='btn btn-primary' form=form type=submit>Hapus</button>";
+                                        echo "<form method=POST action=server/deletecart_process.php?id=$data_getcart[id_keranjang]>";
+                                        echo "<button class='btn btn-primary' type=submit>Hapus</button>";
+                                        echo "</form>";
                                         echo "</div>";
                                         echo "<span class=border-bottom></span>";
                                         $biayajasa = $biayajasa + $data_getcart['harga'];
