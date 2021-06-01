@@ -2,10 +2,10 @@
 -- version 5.0.3
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Jun 01, 2021 at 04:50 AM
+-- Host: 127.0.0.1
+-- Generation Time: Jun 01, 2021 at 10:00 AM
 -- Server version: 10.4.14-MariaDB
--- PHP Version: 7.4.11
+-- PHP Version: 7.2.34
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -49,6 +49,18 @@ INSERT INTO `alamat` (`id_alamat`, `id_pengguna`, `label`, `nama_penerima`, `tel
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `detil_transaksi`
+--
+
+CREATE TABLE `detil_transaksi` (
+  `id_transaksi` int(11) DEFAULT NULL,
+  `id_barang` int(11) DEFAULT NULL,
+  `kuantitas` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `jasa`
 --
 
@@ -82,24 +94,18 @@ INSERT INTO `jasa` (`id`, `nama`, `jenis`, `image`, `keterangan`, `harga`) VALUE
 -- --------------------------------------------------------
 
 --
--- Table structure for table `keranjang`
+-- Table structure for table `transaksi`
 --
 
-CREATE TABLE `keranjang` (
-  `id` int(11) NOT NULL,
-  `id_pengguna` int(11) NOT NULL,
-  `id_jasa` int(11) NOT NULL,
-  `jumlah` int(10) NOT NULL
+CREATE TABLE `transaksi` (
+  `id_transaksi` int(11) NOT NULL,
+  `id_users` int(11) NOT NULL,
+  `id_alamat` int(11) NOT NULL,
+  `intruksi` varchar(500) NOT NULL,
+  `waktu_pengambilan` date NOT NULL,
+  `total` int(11) NOT NULL,
+  `status` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `keranjang`
---
-
-INSERT INTO `keranjang` (`id`, `id_pengguna`, `id_jasa`, `jumlah`) VALUES
-(3, 1, 3, 1),
-(4, 1, 4, 10),
-(5, 1, 7, 2);
 
 -- --------------------------------------------------------
 
@@ -133,18 +139,25 @@ ALTER TABLE `alamat`
   ADD KEY `id_pengguna` (`id_pengguna`);
 
 --
+-- Indexes for table `detil_transaksi`
+--
+ALTER TABLE `detil_transaksi`
+  ADD KEY `id_transaksi` (`id_transaksi`),
+  ADD KEY `id_barang` (`id_barang`);
+
+--
 -- Indexes for table `jasa`
 --
 ALTER TABLE `jasa`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `keranjang`
+-- Indexes for table `transaksi`
 --
-ALTER TABLE `keranjang`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_pengguna` (`id_pengguna`),
-  ADD KEY `id_jasa` (`id_jasa`);
+ALTER TABLE `transaksi`
+  ADD PRIMARY KEY (`id_transaksi`),
+  ADD KEY `id_users` (`id_users`),
+  ADD KEY `id_alamat` (`id_alamat`);
 
 --
 -- Indexes for table `users`
@@ -169,10 +182,10 @@ ALTER TABLE `jasa`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
--- AUTO_INCREMENT for table `keranjang`
+-- AUTO_INCREMENT for table `transaksi`
 --
-ALTER TABLE `keranjang`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+ALTER TABLE `transaksi`
+  MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -191,11 +204,18 @@ ALTER TABLE `alamat`
   ADD CONSTRAINT `alamat_ibfk_1` FOREIGN KEY (`id_pengguna`) REFERENCES `users` (`id`);
 
 --
--- Constraints for table `keranjang`
+-- Constraints for table `detil_transaksi`
 --
-ALTER TABLE `keranjang`
-  ADD CONSTRAINT `keranjang_ibfk_1` FOREIGN KEY (`id_pengguna`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `keranjang_ibfk_2` FOREIGN KEY (`id_jasa`) REFERENCES `jasa` (`id`);
+ALTER TABLE `detil_transaksi`
+  ADD CONSTRAINT `detil_transaksi_ibfk_1` FOREIGN KEY (`id_transaksi`) REFERENCES `transaksi` (`id_transaksi`),
+  ADD CONSTRAINT `detil_transaksi_ibfk_2` FOREIGN KEY (`id_barang`) REFERENCES `jasa` (`id`);
+
+--
+-- Constraints for table `transaksi`
+--
+ALTER TABLE `transaksi`
+  ADD CONSTRAINT `transaksi_ibfk_1` FOREIGN KEY (`id_users`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `transaksi_ibfk_2` FOREIGN KEY (`id_alamat`) REFERENCES `alamat` (`id_alamat`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
