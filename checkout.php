@@ -168,28 +168,56 @@ $query_permak = mysqli_query($connect, "SELECT * FROM jasa WHERE jenis = 'Permak
                                         echo "<span class=border-bottom></span>";
                                         $biayajasa = $biayajasa + $data_getcart['harga'];
                                     }
+                                    $query_getpromo = mysqli_query($connect, "SELECT * FROM transaksi WHERE id_users = $id");
+                                    $data_getpromo = mysqli_num_rows($query_getpromo);
+                                    if ($data_getpromo == 0) {
+                                        $diskon = $biayajasa * 5 / 100;
+                                        $biayaakhir = $biayajasa - $diskon;
+                                        echo "<div class='row'>";
+                                        echo "<div class='col-auto me-auto'>Total Harga <p style ='color: #198754'>(5% Diskon)</p></div>";
+                                        echo "<div class='col-auto'>Rp. $biayajasa<p style ='color: #198754'>- Rp. $diskon</p></div>";
+                                        echo "</div>";
+                                        echo "<div class='row'>";
+                                        echo "<div class='col-auto me-auto'>Harga Pengiriman</div>";
+                                        echo "<div class='col-auto'>Rp. $pengiriman</div>";
+                                        echo "<span class='border-bottom'></span>";
+                                        echo "</div>";
+                                    } else if ($data_getpromo > 0 && $data_getpromo % 5 == 0) {
+                                        $biayaakhir = $biayajasa;
+                                        $pengiriman = 0;
+                                        echo "<div class='row'>";
+                                        echo "<div class='col-auto me-auto'>Total Harga</div>";
+                                        echo "<div class='col-auto'>Rp. $biayaakhir</div>";
+                                        echo "</div>";
+                                        echo "<div class='row'>";
+                                        echo "<div class='col-auto me-auto'><p style='color: #198754'>Harga Pengiriman (Free Ongkir)</p></div>";
+                                        echo "<div class='col-auto'><p style='color: #198754'>Rp. $pengiriman</p></div>";
+                                        echo "<span class= 'border-bottom'></span>";
+                                        echo "</div>";
+                                    } else {
+                                        $biayaakhir = $biayajasa;
+                                        $pengiriman = 5000;
+                                        echo "<div class='row'>";
+                                        echo "<div class='col-auto me-auto'>Total Harga</div>";
+                                        echo "<div class='col-auto'>Rp. $biayaakhir</div>";
+                                        echo "</div>";
+                                        echo "<div class='row'>";
+                                        echo "<div class='col-auto me-auto'>Harga Pengiriman</div>";
+                                        echo "<div class='col-auto'>Rp. $pengiriman</div>";
+                                        echo "<span class= 'border-bottom'></span>";
+                                        echo "</div>";
+                                    }
                                     ?>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-auto me-auto">Total Harga</div>
-                                    <div class="col-auto"><?php echo "Rp. $biayajasa" ?></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-auto me-auto">Harga Pengiriman</div>
-                                    <div class="col-auto"><?php echo "Rp. $pengiriman" ?></div>
-                                    <span class="border-bottom"></span>
-                                </div>
-                                <div class="row">
-                                    <div class="col-auto me-auto"><br>
-                                        <h5>Total Harga</h5>
-                                    </div>
-                                    <div class="col-auto"><br>
-                                        <h5 style="color: #198754"><?php $total = $biayajasa + $pengiriman;
-                                                                    echo "Rp. $total"; ?></h5>
+                                    <div class="row">
+                                        <div class="col-auto me-auto"><br>
+                                            <h5>Total Harga</h5>
+                                        </div>
+                                        <div class="col-auto"><br>
+                                            <h5 style="color: #198754"><?php $total = $biayaakhir + $pengiriman;
+                                                                        echo "Rp. $total"; ?></h5>
+                                        </div>
                                     </div>
                                 </div>
-
                             </div>
                             <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#payment'>Pilih Pembayaran</button>
                             <div class='modal fade' id='payment' tabindex='-1' aria-labelledby='paymentLabel' aria-hidden='true'>

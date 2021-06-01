@@ -38,7 +38,7 @@ if (!isset($_SESSION['email'])) {
                     <div class="card-body">
                         <img src="assets/img/ongkir.jpg" class="card-img-top" alt="...">
                         <h5 class="card-title">Promo Gratis Ongkir</h5>
-                        <p class="card-text">Promo spesial bagi member yang telah memnggunakan jasa kami sebanyak lima kali. Gratis biaya pengiriman sebanyak satu kali</p>
+                        <p class="card-text">Promo spesial bagi member yang telah berlangganan menggunakan jasa kami. Setiap lima kali pembelian, Gratis biaya pengiriman</p>
                         <a href="index.php" class="btn btn-primary">Pesan Sekarang</a>
                     </div>
                 </div>
