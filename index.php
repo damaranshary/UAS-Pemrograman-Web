@@ -21,7 +21,7 @@ if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
         include "assets/components/header.php"
         ?>
         <link rel="stylesheet" href="assets/css/style.css">
-        <title>Homepage</title>
+        <title>Halaman Utama</title>
     </head>
 
     <body>

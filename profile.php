@@ -31,8 +31,8 @@ if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
         include "assets/components/navbar-profil.php"
         ?>
         <main>
-            <div class="container mt-4">
-                <a href="index.php" class="text-black-50" style="text-decoration: none;"><i class="fas fa-chevron-left me-2"></i>Return to homepage</a>
+            <div class="container my-5">
+                <a href="index.php" class="text-black-50 mt-5" style="text-decoration: none;"><i class="fas fa-chevron-left me-2"></i>Kembali ke halaman utama</a>
                 <h3 class="mt-4">Profile</h3>
                 <form class="mt-4">
                     <div class="row mb-3">

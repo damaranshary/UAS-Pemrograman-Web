@@ -9,7 +9,7 @@ $name = $row["name"];
 <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
     <div class="container py-2 py-lg-3">
         <a class="navbar-brand" href="index.php">
-            <img src="assets/img/logo.svg" alt="" width="100" height="">
+            <img src="assets/img/logo.svg" alt="" height="80">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>

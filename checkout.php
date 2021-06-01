@@ -28,7 +28,7 @@ mysqli_next_result($connect);
     <?php
     include "assets/components/navbar-checkout.php"
     ?>
-    <main>
+    <main class="mt-5">
         <div class="container">
             <div class="row">
                 <div class="col me-3">
