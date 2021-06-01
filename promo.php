@@ -14,6 +14,7 @@ if (!isset($_SESSION['email'])) {
     <?php
     include "assets/components/header.php"
     ?>
+    <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/promo.css">
     <title>Promo</title>
 </head>
@@ -21,6 +22,7 @@ if (!isset($_SESSION['email'])) {
     <?php
     include "assets/components/navbar-promo.php"
     ?>
+    <div class="container">
     <div class="row align-items-center h-md-100 p-5 justify-content-center">
         <div class="col-sm-6">
             <div class="card">
@@ -43,7 +45,7 @@ if (!isset($_SESSION['email'])) {
             </div>
         </div>
     </div>
-        <div class="row my-2 align-items-center h-md-100 p-5">
+    <div class="row my-2 align-items-center h-md-100 p-5">
         <div class="col-sm-6">
             <div class="card">
             <div class="card-body">
@@ -65,5 +67,7 @@ if (!isset($_SESSION['email'])) {
             </div>
         </div>
     </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
 </body>
 </html>

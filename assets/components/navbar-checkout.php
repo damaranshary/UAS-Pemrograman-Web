@@ -23,7 +23,7 @@ $name = $row["name"];
                         </a>
                     </li>
                     <li class="nav-item me-4">
-                        <a class="nav-link" href="#promo.php"><i class="fas fa-percentage me-2"></i>Promo</a>
+                        <a class="nav-link" href="promo.php"><i class="fas fa-percentage me-2"></i>Promo</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" href="checkout.php">

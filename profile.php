@@ -72,6 +72,7 @@ if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
                         Area          : $data_getalamat[area]<br>
                         Kode Pos      : $data_getalamat[kodepos]<br>
                         </p>";
+                        echo "<button class='btn btn-danger'>Hapus</button>";
                         echo "</div>";
                         echo "</div>";
                         echo "</div>";
@@ -138,12 +139,12 @@ if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
                                     <div class="row mt-3">
                                         <div class="col">
                                             <div class="d-grid">
-                                                <button type="submit" class="btn button-primary">Add</button>
+                                                <button type="submit" class="btn btn-primary">Tambahkan</button>
                                             </div>
                                         </div>
                                         <div class="col">
                                             <div class="d-grid">
-                                                <button data-bs-dismiss="modal" class="btn button-secondary">Not Now</button>
+                                                <button data-bs-dismiss="modal" class="btn btn-outline-primary">Kembali</button>
                                             </div>
                                         </div>
                                     </div>

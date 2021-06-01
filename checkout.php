@@ -86,7 +86,42 @@ $query_permak = mysqli_query($connect, "SELECT * FROM jasa WHERE jenis = 'Permak
                                     <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
                                 </div>
                                 <div class='modal-body'>
-                                    Nothing here
+                                <?php
+                $id = $data_getprofile['id'];
+                $query_getalamat = mysqli_query($connect, "SELECT * from alamat WHERE id_pengguna = '$id'");
+                $alamat_status = mysqli_num_rows($query_getalamat);
+
+                if ($alamat_status == 0) {
+                    echo "<div class=col>";
+                    echo "<div class='card card-custom'>";
+                    echo "<div class='card-body'>";
+                    echo "<h5 class=card-title>Tidak ada alamat</h5>";
+                    echo "<p class=card-text>Alamat Kosong</p>";
+                    echo "</div>";
+                } else {
+                    echo "<div class='row row-cols-2 row-cols-md-4 g-4'>";
+                    $nomor = 0;
+                    while ($data_getalamat = mysqli_fetch_array($query_getalamat)) {
+                        echo "<div class=col>";
+                        echo "<div class='card card-custom'>";
+                        echo "<div class='card-body'>";
+                        echo "<h5 class=card-title>$data_getalamat[label]</h5>";
+                        echo "<p class=card-text>
+                        Nama Penerima : $data_getalamat[nama_penerima]<br>
+                        Telepon       : $data_getalamat[telepon]<br>
+                        Alamat        : $data_getalamat[alamat]<br>
+                        Area          : $data_getalamat[area]<br>
+                        Kode Pos      : $data_getalamat[kodepos]<br>
+                        </p>";
+                        echo "<button class='btn btn-danger'>Hapus</button>";
+                        echo "</div>";
+                        echo "</div>";
+                        echo "</div>";
+                        $nomor++;
+                    }
+                    echo "</div>";
+                }
+                ?>
                                 </div>
                                 <div class='modal-footer'>
                                     <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Close</button>
