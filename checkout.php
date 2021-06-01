@@ -6,9 +6,11 @@ if (!isset($_SESSION['email'])) {
 }
 
 $email = $_SESSION['email'];
-$query_getprofile = mysqli_query($connect, "SELECT id, name, email FROM users WHERE email='$email'");
+//Pakai prosedur getUserProfile
+$query_getprofile = mysqli_query($connect, "CALL getUserEmail('$email')");
 $data_getprofile = mysqli_fetch_array($query_getprofile);
-$query_permak = mysqli_query($connect, "SELECT * FROM jasa WHERE jenis = 'Permak'");
+$id = $data_getprofile['id'];
+mysqli_next_result($connect);
 ?>
 
 <!DOCTYPE html>
@@ -38,24 +40,31 @@ $query_permak = mysqli_query($connect, "SELECT * FROM jasa WHERE jenis = 'Permak
                             <div class="card-body">
                                 <p class="d-none"><?php $id_alamat = mysqli_real_escape_string($connect, $_GET['id_alamat']); ?></p>
                                 <?php
-                                $id = $data_getprofile['id'];
                                 if (empty($id_alamat)) {
-                                    $query_getalamat_default = mysqli_query($connect, "SELECT * from alamat WHERE id_pengguna = '$id'");
+                                    $query_getalamat_default = mysqli_query($connect, "CALL getAlamatID('$id')");
                                     $data_getalamat_default = mysqli_fetch_array($query_getalamat_default);
-                                    echo "<div class=col>";
-                                    echo "<h5 class=card-title>$data_getalamat_default[label]</h5>";
-                                    echo "<p class=card-text>
+                                    $alamat_status = mysqli_num_rows($query_getalamat_default);
+                                    mysqli_next_result($connect);
+                                    if ($alamat_status == 0) {
+                                        echo "<h5>Alamat kosong</h5>";
+                                        echo "<p>Silahkan isi alamat anda pada halaman profil</p>";
+                                    } else {
+                                        echo "<div class=col>";
+                                        echo "<h5 class=card-title>$data_getalamat_default[label]</h5>";
+                                        echo "<p class=card-text>
                                         Nama Penerima : $data_getalamat_default[nama_penerima]<br>
                                         Telepon       : $data_getalamat_default[telepon]<br>
                                         Alamat        : $data_getalamat_default[alamat]<br>
                                         Area          : $data_getalamat_default[area]<br>
                                         Kode Pos      : $data_getalamat_default[kodepos]
                                         </p>";
-                                    echo "<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#changeAddress'>Ganti Alamat</button>";
-                                    echo "</div>";
+                                        echo "<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#changeAddress'>Ganti Alamat</button>";
+                                        echo "</div>";
+                                    }
                                 } else {
-                                    $query_getalamat = mysqli_query($connect, "SELECT * from alamat WHERE id_pengguna = '$id' AND id_alamat='$id_alamat'");
+                                    $query_getalamat = mysqli_query($connect, "CALL getAlamatID2('$id', '$id_alamat')");
                                     $data_getalamat = mysqli_fetch_array($query_getalamat);
+                                    mysqli_next_result($connect);
                                     echo "<div class=col>";
                                     echo "<h5 class=card-title>$data_getalamat[label]</h5>";
                                     echo "<p class=card-text>
@@ -68,7 +77,6 @@ $query_permak = mysqli_query($connect, "SELECT * FROM jasa WHERE jenis = 'Permak
                                     echo "<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#changeAddress'>Ganti Alamat</button>";
                                     echo "</div>";
                                 }
-
                                 ?>
                             </div>
                         </div>
@@ -105,7 +113,8 @@ $query_permak = mysqli_query($connect, "SELECT * FROM jasa WHERE jenis = 'Permak
                                 <div class='modal-body'>
                                     <?php
                                     $id = $data_getprofile['id'];
-                                    $query_getalamat = mysqli_query($connect, "SELECT * from alamat WHERE id_pengguna = '$id'");
+                                    $query_getalamat = mysqli_query($connect, "CALL getAlamatID('$id')");
+                                    mysqli_next_result($connect);
                                     echo "<div class='row row-cols-2 g-4'>";
                                     $nomor = 0;
                                     while ($data_getalamat = mysqli_fetch_array($query_getalamat)) {
@@ -150,7 +159,9 @@ $query_permak = mysqli_query($connect, "SELECT * FROM jasa WHERE jenis = 'Permak
                                 <div class="row">
                                     <?php
                                     $pengiriman = 5000;
-                                    $query_getcart = mysqli_query($connect, "SELECT a.id AS id_keranjang, b.nama AS nama, b.jenis AS jenis, b.image AS image, b.harga * a.jumlah AS harga, a.jumlah AS jumlah FROM keranjang a INNER JOIN jasa b ON a.id_jasa = b.id WHERE a.id_pengguna='$id'");
+                                    //
+                                    $query_getcart = mysqli_query($connect, "CALL getKeranjang('$id')");
+                                    mysqli_next_result($connect);
                                     $biayajasa = 0;
                                     while ($data_getcart = mysqli_fetch_array($query_getcart)) {
                                         echo "<div class=col-4>";
@@ -168,8 +179,9 @@ $query_permak = mysqli_query($connect, "SELECT * FROM jasa WHERE jenis = 'Permak
                                         echo "<span class=border-bottom></span>";
                                         $biayajasa = $biayajasa + $data_getcart['harga'];
                                     }
-                                    $query_getpromo = mysqli_query($connect, "SELECT * FROM transaksi WHERE id_users = $id");
+                                    $query_getpromo = mysqli_query($connect, "CALL getTransaksiID('$id')");
                                     $data_getpromo = mysqli_num_rows($query_getpromo);
+                                    mysqli_next_result($connect);
                                     if ($data_getpromo == 0) {
                                         $diskon = $biayajasa * 5 / 100;
                                         $biayaakhir = $biayajasa - $diskon;

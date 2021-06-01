@@ -3,8 +3,12 @@ include "server/connection.php";
 session_start();
 
 $email = $_SESSION['email'];
-$query_getprofile = mysqli_query($connect, "SELECT id, name, email FROM users WHERE email='$email'");
+$query_getprofile = mysqli_query($connect, "CALL getUserEmail('$email')");
 $data_getprofile = mysqli_fetch_array($query_getprofile);
+$id = $data_getprofile['id'];
+mysqli_next_result($connect);
+$query_getalamat = mysqli_query($connect, "CALL getAlamatID('$id')");
+$alamat_status = mysqli_num_rows($query_getalamat);
 
 //username & role sessionnya kosong!
 if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
@@ -46,16 +50,14 @@ if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
                 </form>
                 <h3 class="mb-4">Alamat</h3>
                 <?php
-                $id = $data_getprofile['id'];
-                $query_getalamat = mysqli_query($connect, "SELECT * from alamat WHERE id_pengguna = '$id'");
-                $alamat_status = mysqli_num_rows($query_getalamat);
-
                 if ($alamat_status == 0) {
-                    echo "<div class=col>";
+                    echo "<div class=col style='max-width: 200px'>";
                     echo "<div class='card card-custom'>";
                     echo "<div class='card-body'>";
                     echo "<h5 class=card-title>Tidak ada alamat</h5>";
                     echo "<p class=card-text>Alamat Kosong</p>";
+                    echo "</div>";
+                    echo "</div>";
                     echo "</div>";
                 } else {
                     echo "<div class='row row-cols-2 row-cols-md-4 g-4'>";

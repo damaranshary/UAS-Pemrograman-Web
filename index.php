@@ -3,8 +3,9 @@ include "server/connection.php";
 session_start();
 
 //$query_permak = mysqli_query($connect, "SELECT * FROM users");
-$query_permak = mysqli_query($connect, "SELECT * FROM jasa WHERE jenis = 'Permak'");
-$query_buat = mysqli_query($connect, "SELECT * FROM jasa WHERE jenis = 'Jahit Baru'");
+$query_permak = mysqli_query($connect, "CALL getJasaJenis('Permak')");
+mysqli_next_result($connect);
+$query_buat = mysqli_query($connect, "CALL getJasaJenis('Permak')");
 
 $email = $_SESSION['email'];
 //username & role sessionnya kosong!

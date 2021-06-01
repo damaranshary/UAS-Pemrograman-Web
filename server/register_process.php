@@ -20,7 +20,7 @@ if ($user_status > 0) { // if user exists
 if ($user_status == 0) {
     $password = password_hash($password, PASSWORD_DEFAULT); //encrypt the password before saving in the database
 
-    $query = "INSERT INTO users (name, email, password) VALUES ('$name', '$email', '$password')";
+    $query = "CALL insertUsers('$name', '$email', '$password')";
     mysqli_query($connect, $query);
     //$_SESSION['success'] = "You are now logged in";
     //echo $username;
