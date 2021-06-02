@@ -5,7 +5,7 @@ session_start();
 //$query_permak = mysqli_query($connect, "SELECT * FROM users");
 $query_permak = mysqli_query($connect, "CALL getJasaJenis('Permak')");
 mysqli_next_result($connect);
-$query_buat = mysqli_query($connect, "CALL getJasaJenis('Permak')");
+$query_buat = mysqli_query($connect, "CALL getJasaJenis('Jahit Baru')");
 
 $email = $_SESSION['email'];
 //username & role sessionnya kosong!

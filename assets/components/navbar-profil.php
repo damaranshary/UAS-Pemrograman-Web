@@ -1,9 +1,10 @@
 <?php
 include "server/connection.php";
 $email = $_SESSION['email'];
-$query = mysqli_query($connect, "SELECT name FROM users WHERE email='$email'");
+$query = mysqli_query($connect, "SELECT name, id FROM users WHERE email='$email'");
 $row = mysqli_fetch_assoc($query);
 $name = $row["name"];
+$id = $row['id'];
 
 ?>
 <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
@@ -27,7 +28,16 @@ $name = $row["name"];
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="checkout.php">
-                            <i class="fas fa-shopping-cart me-2"></i>Checkout
+                            <i class="fas fa-shopping-cart me-2"></i>
+                            <?php
+                            $query_gettotalcart = mysqli_query($connect, "SELECT *FROM keranjang WHERE id_pengguna = $id");
+                            $data_gettotalcart = mysqli_num_rows($query_gettotalcart);
+                            if ($data_gettotalcart == 0) {
+                                echo "Checkout";
+                            } else {
+                                echo "Checkout <span class='badge bg-secondary'>$data_gettotalcart</span>";
+                            }
+                            ?>
                         </a>
                     </li>
                     <!-- <li class="nav-item dropdown ms-lg-3"> -->
