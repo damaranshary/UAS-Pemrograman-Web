@@ -8,7 +8,7 @@ session_start(); ?>
     include "assets/components/header.php"
     ?>
     <link rel="stylesheet" href="assets/css/login.css">
-    <title>Document</title>
+    <title>Registrasi</title>
 </head>
 
 <body>
@@ -28,9 +28,11 @@ session_start(); ?>
 
         <div class="col-md-6 p-0 bg-white h-md-100 loginarea">
             <div class="d-md-flex align-items-center h-md-100 p-5 justify-content-center">
-                <form action="server/register_process.php" method="POST" style="width: 300px;">
-                    <img class="mb-3" src="assets/img/logo.svg" alt="" width="100px">
-                    <h2 class="mb-5">Create your account</h2>
+                <form action="server/register_process.php" method="POST" style="width: 350px;">
+                    <div class="text-center">
+                        <img class="mb-3" src="assets/img/logo.svg" alt="" width="120px">
+                        <h2 class="mb-5">Buat akun anda</h2>
+                    </div>
                     <!-- Name input -->
                     <div class="form-outline mb-3">
                         <label class="form-label" for="name">Name</label>
@@ -52,12 +54,12 @@ session_start(); ?>
                     <div class="row mb-3">
                         <div class="col">
                             <div class="d-grid">
-                                <button type="submit" class="btn btn-primary">Register</button>
+                                <button type="submit" class="btn btn-primary">Registrasi</button>
                             </div>
                         </div>
                         <div class="col">
                             <div class="d-grid">
-                                <a href="login.php" class="btn btn-outline-primary">Login</a>
+                                <a href="login.php" class="btn btn-outline-primary">Masuk</a>
                             </div>
                         </div>
                     </div>

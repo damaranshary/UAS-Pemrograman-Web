@@ -11,12 +11,20 @@ $area = $_POST['area'];
 $kodepos = $_POST['kodepos'];
 
 
-
-
 $query_getid = mysqli_query($connect, "SELECT id FROM users WHERE email='$email'");
 $row = mysqli_fetch_assoc($query_getid);
 $id_pengguna = $row['id'];
-echo "$id_pengguna, $email, $label, $namapenerima, $telepon, $alamat, $area, $kodepos";
 
-mysqli_query($connect, "INSERT INTO alamat (id_pengguna, label, nama_penerima, telepon, alamat, area, kodepos) VALUES ('$id_pengguna', '$label', '$namapenerima',  '$telepon', '$alamat', '$area', '$kodepos')");
-header('location: ../profile.php');
+$query_getalamat = mysqli_query($connect, "SELECT getJumlahAlamat('$id_pengguna', '$label') AS getJumlahAlamat");
+$jumlahAlamat = mysqli_fetch_assoc($query_getalamat);
+$alamat_status = $jumlahAlamat['getJumlahAlamat'];
+//$alamat_status = mysqli_num_rows($query_getalamat);
+
+if ($alamat_status == 0) {
+    mysqli_query($connect, "CALL insertAlamat('$id_pengguna', '$label', '$namapenerima',  '$telepon', '$alamat', '$area', '$kodepos')");
+    header('location: ../profile.php');
+} else {
+    header('location: ../profile.php?status=fail');
+}
+
+//echo "$id_pengguna, $email, $label, $namapenerima, $telepon, $alamat, $area, $kodepos";

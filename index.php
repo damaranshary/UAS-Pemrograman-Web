@@ -3,8 +3,9 @@ include "server/connection.php";
 session_start();
 
 //$query_permak = mysqli_query($connect, "SELECT * FROM users");
-$query_permak = mysqli_query($connect, "SELECT * FROM jasa WHERE jenis = 'Permak'");
-$query_buat = mysqli_query($connect, "SELECT * FROM jasa WHERE jenis = 'Jahit Baru'");
+$query_permak = mysqli_query($connect, "CALL getJasaJenis('Permak')");
+mysqli_next_result($connect);
+$query_buat = mysqli_query($connect, "CALL getJasaJenis('Permak')");
 
 $email = $_SESSION['email'];
 //username & role sessionnya kosong!
@@ -20,7 +21,7 @@ if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
         include "assets/components/header.php"
         ?>
         <link rel="stylesheet" href="assets/css/style.css">
-        <title>Homepage</title>
+        <title>Halaman Utama</title>
     </head>
 
     <body>
@@ -32,18 +33,13 @@ if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
                 <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <div class="card bg-dark text-white" style="height: 300px;">
-                                <img src="assets/img/login.png" class="card-img" alt="...">
+                            <div class="card bg-light text-white">
+                                <img src="assets/img/banner/1.svg" class="card-img" alt="...">
                             </div>
                         </div>
                         <div class="carousel-item">
-                            <div class="card bg-dark text-white" style="height: 300px;">
-                                <img src="assets/img/login.png" class="card-img" alt="...">
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="card bg-dark text-white" style="height: 300px;">
-                                <img src="assets/img/login.png" class="card-img" alt="...">
+                            <div class="card bg-light text-white">
+                                <img src="assets/img/banner/2.svg" class="card-img" alt="...">
                             </div>
                         </div>
                     </div>
@@ -61,7 +57,7 @@ if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
             <section class="section">
                 <div class="container mt-5">
                     <div class="heading">
-                        <h3>Popular Service</h3>
+                        <h3>Jasa Populer</h3>
                     </div>
                     <div class="row mt-4">
                         <div class="col">
@@ -81,7 +77,7 @@ if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
             <section>
                 <div class="container mt-5">
                     <div class="heading">
-                        <h3>All Service</h3>
+                        <h3>Semua Jasa</h3>
                     </div>
                     <ul class="nav nav-pills justify-content-center mt-2" id="pills-tab" role="tablist">
                         <li class="nav-item" role="presentation">

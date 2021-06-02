@@ -3,9 +3,22 @@ include "server/connection.php";
 session_start();
 
 $email = $_SESSION['email'];
-$query_getprofile = mysqli_query($connect, "SELECT id, name, email FROM users WHERE email='$email'");
+$query_getprofile = mysqli_query($connect, "CALL getUserEmail('$email')");
 $data_getprofile = mysqli_fetch_array($query_getprofile);
+$id = $data_getprofile['id'];
+mysqli_next_result($connect);
+$query_getalamat = mysqli_query($connect, "CALL getAlamatID('$id')");
+$alamat_status = mysqli_num_rows($query_getalamat);
 
+$status_tambah = mysqli_real_escape_string($connect, $_GET['status']);
+if (empty($status_tambah)) {
+    $alert = "";
+} else {
+    $alert = "<div class='alert alert-warning alert-dismissible fade show' role='alert'>
+    Masukan alamat dengan label yang berbeda
+    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+    </div>";
+}
 //username & role sessionnya kosong!
 if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
     header("location: login.php");
@@ -26,9 +39,10 @@ if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
         <?php
         include "assets/components/navbar-profil.php"
         ?>
-        <main>
-            <div class="container mt-4">
-                <a href="index.php" class="text-black-50" style="text-decoration: none;"><i class="fas fa-chevron-left me-2"></i>Return to homepage</a>
+        <main class="mt-5">
+            <div class="container mt-3 mb-5">
+                <?php echo "$alert" ?>
+                <a href="index.php" class="text-black-50 mt-5" style="text-decoration: none;"><i class="fas fa-chevron-left me-2"></i>Kembali ke halaman utama</a>
                 <h3 class="mt-4">Profile</h3>
                 <form class="mt-4">
                     <div class="row mb-3">
@@ -46,23 +60,21 @@ if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
                 </form>
                 <h3 class="mb-4">Alamat</h3>
                 <?php
-                $id = $data_getprofile['id'];
-                $query_getalamat = mysqli_query($connect, "SELECT * from alamat WHERE id_pengguna = '$id'");
-                $alamat_status = mysqli_num_rows($query_getalamat);
-
                 if ($alamat_status == 0) {
-                    echo "<div class=col>";
+                    echo "<div class=col style='max-width: 200px'>";
                     echo "<div class='card card-custom'>";
                     echo "<div class='card-body'>";
                     echo "<h5 class=card-title>Tidak ada alamat</h5>";
                     echo "<p class=card-text>Alamat Kosong</p>";
+                    echo "</div>";
+                    echo "</div>";
                     echo "</div>";
                 } else {
                     echo "<div class='row row-cols-2 row-cols-md-4 g-4'>";
                     $nomor = 0;
                     while ($data_getalamat = mysqli_fetch_array($query_getalamat)) {
                         echo "<div class=col>";
-                        echo "<div class='card card-custom'>";
+                        echo "<div class='card card-custom h-100'>";
                         echo "<div class='card-body'>";
                         echo "<h5 class=card-title>$data_getalamat[label]</h5>";
                         echo "<p class=card-text>
@@ -72,6 +84,9 @@ if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
                         Area          : $data_getalamat[area]<br>
                         Kode Pos      : $data_getalamat[kodepos]<br>
                         </p>";
+                        echo "<form method=POST action=server/deletealamat_process.php?id=$data_getalamat[id_alamat] class=mb-2>";
+                        echo "<button type=submit class='btn btn-danger'>Hapus</button>";
+                        echo "</form>";
                         echo "</div>";
                         echo "</div>";
                         echo "</div>";
@@ -94,7 +109,7 @@ if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
                                 <form action="server/add-address_process.php" method="POST">
                                     <!-- Name input -->
                                     <div class="form-outline mb-3">
-                                        <label class="form-label" for="labelalamat">Label Alamat</label>
+                                        <label class="form-label" for="labelalamat">Label Alamat (Label alamat harus berbeda)</label>
                                         <input type="text" name="label" id="label" class="form-control" required />
                                     </div>
                                     <div class="row">
@@ -138,12 +153,12 @@ if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
                                     <div class="row mt-3">
                                         <div class="col">
                                             <div class="d-grid">
-                                                <button type="submit" class="btn button-primary">Add</button>
+                                                <button type="submit" class="btn btn-primary">Tambahkan</button>
                                             </div>
                                         </div>
                                         <div class="col">
                                             <div class="d-grid">
-                                                <button data-bs-dismiss="modal" class="btn button-secondary">Not Now</button>
+                                                <button data-bs-dismiss="modal" class="btn btn-outline-primary">Kembali</button>
                                             </div>
                                         </div>
                                     </div>
@@ -154,6 +169,9 @@ if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
                 </div>
             </div>
         </main>
+        <?php
+        include "assets/components/footer.php";
+        ?>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
     </body>
 <?php

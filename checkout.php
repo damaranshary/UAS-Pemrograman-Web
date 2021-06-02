@@ -6,9 +6,11 @@ if (!isset($_SESSION['email'])) {
 }
 
 $email = $_SESSION['email'];
-$query_getprofile = mysqli_query($connect, "SELECT id, name, email FROM users WHERE email='$email'");
+//Pakai prosedur getUserProfile
+$query_getprofile = mysqli_query($connect, "CALL getUserEmail('$email')");
 $data_getprofile = mysqli_fetch_array($query_getprofile);
-$query_permak = mysqli_query($connect, "SELECT * FROM jasa WHERE jenis = 'Permak'");
+$id = $data_getprofile['id'];
+mysqli_next_result($connect);
 ?>
 
 <!DOCTYPE html>
@@ -26,7 +28,7 @@ $query_permak = mysqli_query($connect, "SELECT * FROM jasa WHERE jenis = 'Permak
     <?php
     include "assets/components/navbar-checkout.php"
     ?>
-    <main>
+    <main class="mt-5">
         <div class="container">
             <div class="row">
                 <div class="col me-3">
@@ -36,22 +38,45 @@ $query_permak = mysqli_query($connect, "SELECT * FROM jasa WHERE jenis = 'Permak
                         </div>
                         <div class="px-3 py-2 card" style="border-radius: 10px; transition: 0.3s;">
                             <div class="card-body">
+                                <p class="d-none"><?php $id_alamat = mysqli_real_escape_string($connect, $_GET['id_alamat']); ?></p>
                                 <?php
-                                $id = $data_getprofile['id'];
-                                $query_getalamat = mysqli_query($connect, "SELECT * from alamat WHERE id_pengguna = '$id'");
-                                $alamat_status = mysqli_num_rows($query_getalamat);
-                                $data_getalamat = mysqli_fetch_array($query_getalamat);
-                                echo "<div class=col>";
-                                echo "<h5 class=card-title>$data_getalamat[label]</h5>";
-                                echo "<p class=card-text>
+                                if (empty($id_alamat)) {
+                                    $query_getalamat_default = mysqli_query($connect, "CALL getAlamatID('$id')");
+                                    $data_getalamat_default = mysqli_fetch_array($query_getalamat_default);
+                                    $alamat_status = mysqli_num_rows($query_getalamat_default);
+                                    mysqli_next_result($connect);
+                                    if ($alamat_status == 0) {
+                                        echo "<h5>Alamat kosong</h5>";
+                                        echo "<p>Silahkan isi alamat anda pada halaman profil</p>";
+                                    } else {
+                                        echo "<div class=col>";
+                                        echo "<h5 class=card-title>$data_getalamat_default[label]</h5>";
+                                        echo "<p class=card-text>
+                                        Nama Penerima : $data_getalamat_default[nama_penerima]<br>
+                                        Telepon       : $data_getalamat_default[telepon]<br>
+                                        Alamat        : $data_getalamat_default[alamat]<br>
+                                        Area          : $data_getalamat_default[area]<br>
+                                        Kode Pos      : $data_getalamat_default[kodepos]
+                                        </p>";
+                                        echo "<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#changeAddress'>Ganti Alamat</button>";
+                                        echo "</div>";
+                                    }
+                                } else {
+                                    $query_getalamat = mysqli_query($connect, "CALL getAlamatID2('$id', '$id_alamat')");
+                                    $data_getalamat = mysqli_fetch_array($query_getalamat);
+                                    mysqli_next_result($connect);
+                                    echo "<div class=col>";
+                                    echo "<h5 class=card-title>$data_getalamat[label]</h5>";
+                                    echo "<p class=card-text>
                                         Nama Penerima : $data_getalamat[nama_penerima]<br>
                                         Telepon       : $data_getalamat[telepon]<br>
                                         Alamat        : $data_getalamat[alamat]<br>
                                         Area          : $data_getalamat[area]<br>
                                         Kode Pos      : $data_getalamat[kodepos]
                                         </p>";
-                                echo "<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#changeAddress'>Ganti Alamat</button>";
-                                echo "</div>";
+                                    echo "<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#changeAddress'>Ganti Alamat</button>";
+                                    echo "</div>";
+                                }
                                 ?>
                             </div>
                         </div>
@@ -86,11 +111,38 @@ $query_permak = mysqli_query($connect, "SELECT * FROM jasa WHERE jenis = 'Permak
                                     <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
                                 </div>
                                 <div class='modal-body'>
-                                    Nothing here
+                                    <?php
+                                    $id = $data_getprofile['id'];
+                                    $query_getalamat = mysqli_query($connect, "CALL getAlamatID('$id')");
+                                    mysqli_next_result($connect);
+                                    echo "<div class='row row-cols-2 g-4'>";
+                                    $nomor = 0;
+                                    while ($data_getalamat = mysqli_fetch_array($query_getalamat)) {
+                                        echo "<div class=col>";
+                                        echo "<form method=POST action=checkout.php?id_alamat=$data_getalamat[id_alamat] class=mb-2>";
+                                        echo "<button type=submit class='btn btn-primary'>Pilih alamat ini</button>";
+                                        echo "</form>";
+                                        echo "<div class='card card-custom'>";
+                                        echo "<div class='card-body'>";
+                                        echo "<h5 class=card-title>$data_getalamat[label]</h5>";
+                                        echo "<p class=card-text>
+                                        Nama Penerima : $data_getalamat[nama_penerima]<br>
+                                        Telepon       : $data_getalamat[telepon]<br>
+                                        Alamat        : $data_getalamat[alamat]<br>
+                                        Area          : $data_getalamat[area]<br>
+                                        Kode Pos      : $data_getalamat[kodepos]<br>
+                                        </p>";
+                                        echo "</div>";
+                                        echo "</div>";
+                                        echo "</div>";
+                                        $nomor++;
+                                    }
+                                    echo "</div>";
+                                    ?>
                                 </div>
                                 <div class='modal-footer'>
                                     <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Close</button>
-                                    <button type='button' class='btn btn-primary'>Save changes</button>
+
                                 </div>
                             </div>
                         </div>
@@ -107,7 +159,9 @@ $query_permak = mysqli_query($connect, "SELECT * FROM jasa WHERE jenis = 'Permak
                                 <div class="row">
                                     <?php
                                     $pengiriman = 5000;
-                                    $query_getcart = mysqli_query($connect, "SELECT a.id AS id_keranjang, b.nama AS nama, b.jenis AS jenis, b.image AS image, b.harga * a.jumlah AS harga, a.jumlah AS jumlah FROM keranjang a INNER JOIN jasa b ON a.id_jasa = b.id WHERE a.id_pengguna='$id'");
+                                    //
+                                    $query_getcart = mysqli_query($connect, "CALL getKeranjang('$id')");
+                                    mysqli_next_result($connect);
                                     $biayajasa = 0;
                                     while ($data_getcart = mysqli_fetch_array($query_getcart)) {
                                         echo "<div class=col-4>";
@@ -118,34 +172,64 @@ $query_permak = mysqli_query($connect, "SELECT * FROM jasa WHERE jenis = 'Permak
                                         echo "<p class=card-text>";
                                         echo "$data_getcart[jumlah] buah <br>";
                                         echo "Rp. $data_getcart[harga] <br></p>";
-                                        echo "<form id=form method=POST action='server/deletecart_process.php?id=$data_getcart[id_keranjang]'></form>";
-                                        echo "<button class='btn btn-primary' form=form type=submit>Hapus</button>";
+                                        echo "<form method=POST action=server/deletecart_process.php?id=$data_getcart[id_keranjang]>";
+                                        echo "<button class='btn btn-primary' type=submit>Hapus</button>";
+                                        echo "</form>";
                                         echo "</div>";
                                         echo "<span class=border-bottom></span>";
                                         $biayajasa = $biayajasa + $data_getcart['harga'];
                                     }
+                                    $query_getpromo = mysqli_query($connect, "CALL getTransaksiID('$id')");
+                                    $data_getpromo = mysqli_num_rows($query_getpromo);
+                                    mysqli_next_result($connect);
+                                    if ($data_getpromo == 0) {
+                                        $diskon = $biayajasa * 5 / 100;
+                                        $biayaakhir = $biayajasa - $diskon;
+                                        echo "<div class='row'>";
+                                        echo "<div class='col-auto me-auto'>Total Harga <p style ='color: #198754'>(5% Diskon)</p></div>";
+                                        echo "<div class='col-auto'>Rp. $biayajasa<p style ='color: #198754'>- Rp. $diskon</p></div>";
+                                        echo "</div>";
+                                        echo "<div class='row'>";
+                                        echo "<div class='col-auto me-auto'>Harga Pengiriman</div>";
+                                        echo "<div class='col-auto'>Rp. $pengiriman</div>";
+                                        echo "<span class='border-bottom'></span>";
+                                        echo "</div>";
+                                    } else if ($data_getpromo > 0 && $data_getpromo % 5 == 0) {
+                                        $biayaakhir = $biayajasa;
+                                        $pengiriman = 0;
+                                        echo "<div class='row'>";
+                                        echo "<div class='col-auto me-auto'>Total Harga</div>";
+                                        echo "<div class='col-auto'>Rp. $biayaakhir</div>";
+                                        echo "</div>";
+                                        echo "<div class='row'>";
+                                        echo "<div class='col-auto me-auto'><p style='color: #198754'>Harga Pengiriman (Free Ongkir)</p></div>";
+                                        echo "<div class='col-auto'><p style='color: #198754'>Rp. $pengiriman</p></div>";
+                                        echo "<span class= 'border-bottom'></span>";
+                                        echo "</div>";
+                                    } else {
+                                        $biayaakhir = $biayajasa;
+                                        $pengiriman = 5000;
+                                        echo "<div class='row'>";
+                                        echo "<div class='col-auto me-auto'>Total Harga</div>";
+                                        echo "<div class='col-auto'>Rp. $biayaakhir</div>";
+                                        echo "</div>";
+                                        echo "<div class='row'>";
+                                        echo "<div class='col-auto me-auto'>Harga Pengiriman</div>";
+                                        echo "<div class='col-auto'>Rp. $pengiriman</div>";
+                                        echo "<span class= 'border-bottom'></span>";
+                                        echo "</div>";
+                                    }
                                     ?>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-auto me-auto">Total Harga</div>
-                                    <div class="col-auto"><?php echo "Rp. $biayajasa" ?></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-auto me-auto">Harga Pengiriman</div>
-                                    <div class="col-auto"><?php echo "Rp. $pengiriman" ?></div>
-                                    <span class="border-bottom"></span>
-                                </div>
-                                <div class="row">
-                                    <div class="col-auto me-auto"><br>
-                                        <h5>Total Harga</h5>
-                                    </div>
-                                    <div class="col-auto"><br>
-                                        <h5 style="color: #198754"><?php $total = $biayajasa + $pengiriman;
-                                                                    echo "Rp. $total"; ?></h5>
+                                    <div class="row">
+                                        <div class="col-auto me-auto"><br>
+                                            <h5>Total Harga</h5>
+                                        </div>
+                                        <div class="col-auto"><br>
+                                            <h5 style="color: #198754"><?php $total = $biayaakhir + $pengiriman;
+                                                                        echo "Rp. $total"; ?></h5>
+                                        </div>
                                     </div>
                                 </div>
-
                             </div>
                             <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#payment'>Pilih Pembayaran</button>
                             <div class='modal fade' id='payment' tabindex='-1' aria-labelledby='paymentLabel' aria-hidden='true'>
