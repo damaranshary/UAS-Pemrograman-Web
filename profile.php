@@ -10,15 +10,6 @@ mysqli_next_result($connect);
 $query_getalamat = mysqli_query($connect, "CALL getAlamatID('$id')");
 $alamat_status = mysqli_num_rows($query_getalamat);
 
-$status_tambah = mysqli_real_escape_string($connect, $_GET['status']);
-if (empty($status_tambah)) {
-    $alert = "";
-} else {
-    $alert = "<div class='alert alert-warning alert-dismissible fade show' role='alert'>
-    Masukan alamat dengan label yang berbeda
-    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-    </div>";
-}
 //username & role sessionnya kosong!
 if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
     header("location: login.php");
@@ -29,18 +20,27 @@ if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
 
     <head>
         <?php
-        include "assets/components/header.php"
+        include "assets/components/header.php";
         ?>
         <link rel="stylesheet" href="assets/css/style.css">
         <title>Profil</title>
     </head>
 
     <body>
+        <p class="d-none"><?php $status_tambah = mysqli_real_escape_string($connect, $_GET['status']); ?></p>
         <?php
-        include "assets/components/navbar-profil.php"
+        include "assets/components/navbar-profil.php";
+        if (empty($status_tambah)) {
+            $alert = "";
+        } else {
+            $alert = "<div class='alert alert-warning alert-dismissible fade show' role='alert'>
+            Masukan alamat dengan label yang berbeda
+            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+            </div>";
+        }
         ?>
-        <main class="mt-5">
-            <div class="container mt-3 mb-5">
+        <main>
+            <div class="container mt-1 mb-5">
                 <?php echo "$alert" ?>
                 <a href="index.php" class="text-black-50 mt-5" style="text-decoration: none;"><i class="fas fa-chevron-left me-2"></i>Kembali ke halaman utama</a>
                 <h3 class="mt-4">Profile</h3>

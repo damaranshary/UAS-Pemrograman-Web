@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 02, 2021 at 03:29 AM
+-- Generation Time: Jun 02, 2021 at 12:14 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.11
 
@@ -46,7 +46,7 @@ SELECT * FROM jasa WHERE jenis=jenisJasa;
 end$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getKeranjang` (IN `idPengguna` INT)  BEGIN
-SELECT a.id AS id_keranjang, b.nama AS nama, b.jenis AS jenis, b.image AS image, b.harga * a.jumlah AS harga, a.jumlah AS jumlah FROM keranjang a INNER JOIN jasa b ON a.id_jasa = b.id WHERE a.id_pengguna=idPengguna;
+SELECT a.id AS id_keranjang, a.id_jasa AS id_jasa, b.nama AS nama, b.jenis AS jenis, b.image AS image, b.harga * a.jumlah AS harga, a.jumlah AS jumlah FROM keranjang a INNER JOIN jasa b ON a.id_jasa = b.id WHERE a.id_pengguna=idPengguna;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getTransaksiID` (IN `idPengguna` INT)  begin
@@ -69,7 +69,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `insertKeranjang` (IN `idPengguna` I
 INSERT INTO keranjang (id_pengguna, id_jasa, jumlah) VALUES (idPengguna, idBarang, jmlh);
 end$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `insertTransaksi` (`in_users` INT, `in_alamat` INT, `in_intruksi` VARCHAR(500), `in_waktu` DATE, `in_total` INT, `in_status` VARCHAR(20))  begin
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertTransaksi` (IN `in_users` INT, IN `in_alamat` INT, IN `in_intruksi` VARCHAR(500), IN `in_waktu` DATETIME, IN `in_total` INT, IN `in_status` VARCHAR(20))  begin
  insert into transaksi (id_users, id_alamat, intruksi, waktu_pengambilan, total, status) values (in_users, in_alamat, in_intruksi, in_waktu, in_total, in_status);
 end$$
 
@@ -122,10 +122,20 @@ INSERT INTO `alamat` (`id_alamat`, `id_pengguna`, `label`, `nama_penerima`, `tel
 --
 
 CREATE TABLE `detil_transaksi` (
-  `id_transaksi` int(11) DEFAULT NULL,
-  `id_barang` int(11) DEFAULT NULL,
-  `kuantitas` int(11) DEFAULT NULL
+  `id_transaksi` int(11) NOT NULL,
+  `id_barang` int(11) NOT NULL,
+  `kuantitas` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `detil_transaksi`
+--
+
+INSERT INTO `detil_transaksi` (`id_transaksi`, `id_barang`, `kuantitas`) VALUES
+(3, 6, 10),
+(2, 4, 3),
+(10, 10, 10),
+(10, 10, 10);
 
 -- --------------------------------------------------------
 
@@ -179,7 +189,9 @@ CREATE TABLE `keranjang` (
 
 INSERT INTO `keranjang` (`id`, `id_pengguna`, `id_jasa`, `jumlah`) VALUES
 (1, 1, 1, 2),
-(2, 1, 2, 2);
+(2, 1, 2, 2),
+(3, 13, 1, 2),
+(4, 1, 3, 2);
 
 -- --------------------------------------------------------
 
@@ -192,10 +204,40 @@ CREATE TABLE `transaksi` (
   `id_users` int(11) NOT NULL,
   `id_alamat` int(11) NOT NULL,
   `intruksi` varchar(500) NOT NULL,
-  `waktu_pengambilan` date NOT NULL,
+  `waktu_pengambilan` datetime NOT NULL,
   `total` int(11) NOT NULL,
   `status` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `transaksi`
+--
+
+INSERT INTO `transaksi` (`id_transaksi`, `id_users`, `id_alamat`, `intruksi`, `waktu_pengambilan`, `total`, `status`) VALUES
+(1, 1, 1, 'Halooo', '2021-06-02 14:16:00', 328000, 'Proses'),
+(2, 1, 1, 'Haloo', '2021-06-02 11:10:31', 465000, 'Proses'),
+(3, 1, 1, 'Haloo', '2021-06-02 11:12:06', 465000, 'Proses'),
+(4, 1, 1, 'Haloo', '2021-06-02 11:19:15', 465000, 'Proses'),
+(5, 1, 1, 'haloo', '2021-06-02 11:19:54', 465000, 'Proses'),
+(6, 1, 1, 'haloo', '2021-06-02 11:25:36', 465000, 'Proses'),
+(7, 1, 1, 'haloo', '2021-06-02 11:27:12', 465000, 'Proses'),
+(8, 1, 1, 'haloo', '2021-06-02 11:27:55', 465000, 'Proses'),
+(9, 1, 1, 'haloo', '2021-06-02 11:29:29', 465000, 'Proses'),
+(10, 1, 1, 'haloo', '2021-06-02 11:30:56', 465000, 'Proses'),
+(11, 1, 1, 'haloo', '2021-06-02 11:33:05', 465000, 'Proses'),
+(12, 1, 1, 'haloo', '2021-06-02 11:33:55', 465000, 'Proses'),
+(13, 1, 1, 'haloo', '2021-06-02 11:35:32', 465000, 'Proses'),
+(14, 1, 1, 'haloo', '2021-06-02 11:38:30', 465000, 'Proses'),
+(15, 1, 1, 'haloo', '2021-06-02 11:42:10', 465000, 'Proses'),
+(16, 1, 1, 'haloo', '2021-06-02 11:47:32', 465000, 'Proses'),
+(17, 1, 1, 'haloo', '2021-06-02 11:48:07', 465000, 'Proses'),
+(18, 1, 1, 'haloo', '2021-06-02 11:48:53', 465000, 'Proses'),
+(19, 1, 1, 'haloo', '2021-06-02 11:50:33', 465000, 'Proses'),
+(20, 1, 1, 'haloo', '2021-06-02 11:51:30', 465000, 'Proses'),
+(21, 1, 1, 'haloo', '2021-06-02 11:52:00', 465000, 'Proses'),
+(22, 1, 1, 'haloo', '2021-06-02 11:54:50', 465000, 'Proses'),
+(23, 1, 1, 'haloo', '2021-06-02 11:56:32', 465000, 'Proses'),
+(24, 1, 1, 'haloo', '2021-06-02 11:58:00', 465000, 'Proses');
 
 -- --------------------------------------------------------
 
@@ -215,8 +257,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`) VALUES
-(1, 'Admin', 'admin@email.com', '$2y$10$cdHnN4XEvVZqmciAdFoJfeaooRZ7PrDm.TZGvG7Xnf5u4HWQu4jNG'),
-(12, 'ganteng', 'ganteng@banget.com', '$2y$10$TBoliRlcHW.hsANKz6oD8Oyv1jswAO3U3fBiAMSBo9UDnvYwItJO6');
+(1, 'Admin', 'admin@email.com', '$2y$10$.QV81Fg92a8rjJ68WnNVSuefZH7kL0IjMey9GjdynBj2QYWx5LH5.'),
+(12, 'ganteng', 'ganteng@banget.com', '$2y$10$TBoliRlcHW.hsANKz6oD8Oyv1jswAO3U3fBiAMSBo9UDnvYwItJO6'),
+(13, 'irfan', 'irfannm@mail.com', '$2y$10$g56VCade.GEqS2n92qxu4O4JE0zJEa3NIM0Yng4pGyeUNng5PIhMC');
 
 --
 -- Indexes for dumped tables
@@ -228,13 +271,6 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`) VALUES
 ALTER TABLE `alamat`
   ADD PRIMARY KEY (`id_alamat`),
   ADD KEY `id_pengguna` (`id_pengguna`);
-
---
--- Indexes for table `detil_transaksi`
---
-ALTER TABLE `detil_transaksi`
-  ADD KEY `id_transaksi` (`id_transaksi`),
-  ADD KEY `id_barang` (`id_barang`);
 
 --
 -- Indexes for table `jasa`
@@ -284,19 +320,19 @@ ALTER TABLE `jasa`
 -- AUTO_INCREMENT for table `keranjang`
 --
 ALTER TABLE `keranjang`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Constraints for dumped tables
@@ -307,13 +343,6 @@ ALTER TABLE `users`
 --
 ALTER TABLE `alamat`
   ADD CONSTRAINT `alamat_ibfk_1` FOREIGN KEY (`id_pengguna`) REFERENCES `users` (`id`);
-
---
--- Constraints for table `detil_transaksi`
---
-ALTER TABLE `detil_transaksi`
-  ADD CONSTRAINT `detil_transaksi_ibfk_1` FOREIGN KEY (`id_transaksi`) REFERENCES `transaksi` (`id_transaksi`),
-  ADD CONSTRAINT `detil_transaksi_ibfk_2` FOREIGN KEY (`id_barang`) REFERENCES `jasa` (`id`);
 
 --
 -- Constraints for table `keranjang`

@@ -29,6 +29,7 @@ mysqli_next_result($connect);
     include "assets/components/navbar-checkout.php"
     ?>
     <main class="mt-5">
+        <form id="checkout-form" method="POST" action="server/transaksi_process.php"></form>
         <div class="container">
             <div class="row">
                 <div class="col me-3">
@@ -61,6 +62,7 @@ mysqli_next_result($connect);
                                         echo "<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#changeAddress'>Ganti Alamat</button>";
                                         echo "</div>";
                                     }
+                                    echo "<input class='d-none' name=id-alamat form=checkout-form value=$data_getalamat_default[id_alamat]>";
                                 } else {
                                     $query_getalamat = mysqli_query($connect, "CALL getAlamatID2('$id', '$id_alamat')");
                                     $data_getalamat = mysqli_fetch_array($query_getalamat);
@@ -76,6 +78,7 @@ mysqli_next_result($connect);
                                         </p>";
                                     echo "<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#changeAddress'>Ganti Alamat</button>";
                                     echo "</div>";
+                                    echo "<input class='d-none' name=id-alamat form=checkout-form value=$data_getalamat[id_alamat]>";
                                 }
                                 ?>
                             </div>
@@ -89,7 +92,7 @@ mysqli_next_result($connect);
                         <div class="p-1">
                             <p>Masukan detail pengerjaan untuk jasa yang anda pilih</p>
                         </div>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" style="resize: none;"></textarea>
+                        <textarea class="form-control" name="instruksi" form="checkout-form" id="exampleFormControlTextarea1" rows="4" style="resize: none;" required></textarea>
                     </div>
 
                     <div class="row mt-2 mb-5 ms-3 ms-md-auto">
@@ -99,7 +102,7 @@ mysqli_next_result($connect);
                         <div class="p-1">
                             <p>Tentukan waktu pengambilan pakaian untuk jasa yang anda gunakan</p>
                         </div>
-                        <input class="form-control" type="datetime-local" id="meeting-time" name="meeting-time">
+                        <input class="form-control" type="datetime-local" form="checkout-form" id="meeting_time" name="meeting_time" required>
 
                     </div>
 
@@ -113,6 +116,7 @@ mysqli_next_result($connect);
                                 <div class='modal-body'>
                                     <?php
                                     $id = $data_getprofile['id'];
+                                    echo "<input class='d-none' name=id-pengguna form=checkout-form value=$id>";
                                     $query_getalamat = mysqli_query($connect, "CALL getAlamatID('$id')");
                                     mysqli_next_result($connect);
                                     echo "<div class='row row-cols-2 g-4'>";
@@ -227,28 +231,12 @@ mysqli_next_result($connect);
                                         <div class="col-auto"><br>
                                             <h5 style="color: #198754"><?php $total = $biayaakhir + $pengiriman;
                                                                         echo "Rp. $total"; ?></h5>
+                                            <input class="d-none" name="total" form="checkout-form" value="<?php echo "$total" ?>">
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#payment'>Pilih Pembayaran</button>
-                            <div class='modal fade' id='payment' tabindex='-1' aria-labelledby='paymentLabel' aria-hidden='true'>
-                                <div class='modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable'>
-                                    <div class='modal-content'>
-                                        <div class='modal-header'>
-                                            <h5 class='modal-title' id='paymentLabel'>Pilih Pembayaran</h5>
-                                            <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
-                                        </div>
-                                        <div class='modal-body'>
-                                            Nothing here
-                                        </div>
-                                        <div class='modal-footer'>
-                                            <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Close</button>
-                                            <button type='button' class='btn btn-primary'>Save changes</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <button type='submit' class='btn btn-primary' form="checkout-form">Lakukan Transaksi</button>
                         </div>
                     </div>
                 </div>

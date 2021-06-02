@@ -5,8 +5,10 @@ session_start();
 //$query_permak = mysqli_query($connect, "SELECT * FROM users");
 $query_permak = mysqli_query($connect, "CALL getJasaJenis('Permak')");
 mysqli_next_result($connect);
-$query_buat = mysqli_query($connect, "CALL getJasaJenis('Permak')");
-
+$query_buat = mysqli_query($connect, "CALL getJasaJenis('Jahit Baru')");
+mysqli_next_result($connect);
+$rank_jasa = mysqli_query($connect, "CALL rankjasa()");
+mysqli_next_result($connect);
 $email = $_SESSION['email'];
 //username & role sessionnya kosong!
 if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
@@ -18,18 +20,28 @@ if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
 
     <head>
         <?php
-        include "assets/components/header.php"
+        include "assets/components/header.php";
         ?>
         <link rel="stylesheet" href="assets/css/style.css">
         <title>Halaman Utama</title>
     </head>
 
     <body>
+        <p class="d-none"><?php $status_transaksi = mysqli_real_escape_string($connect, $_GET['status_transaksi']); ?></p>
         <?php
-        include "assets/components/navbar.php"
+        include "assets/components/navbar.php";
+        if (empty($status_transaksi)) {
+            $alert = "";
+        } else {
+            $alert = "<div class='alert alert-success alert-dismissible fade show' role='alert'>
+            Transaksi anda sukses. Silahkan tunggu pakaian anda dijemput sesuai dengan waktu yang telah ditentukan
+            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+            </div>";
+        }
         ?>
         <main>
             <div class="container mt-5">
+                <?php echo "$alert" ?>
                 <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
@@ -60,16 +72,28 @@ if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
                         <h3>Jasa Populer</h3>
                     </div>
                     <div class="row mt-4">
-                        <div class="col">
-                            <div class="card">
-                                <img src="..." class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                                </div>
-                            </div>
-                        </div>
+                        <?php
+                        while ($data_rank = mysqli_fetch_array($rank_jasa)) {
+                            echo "<div class=col>";
+                            echo "<div class='card h-100'>";
+                            echo "<img src=https://storage.googleapis.com/uaspweb/img/$data_rank[image].png class='card-img-top' alt=...>";
+                            echo "<div class='card-body'>";
+                            echo "<h5 class=card-title>$data_rank[nama]</h5>";
+                            echo "<p class=card-text>$data_rank[keterangan]</p>";
+                            echo "<p>Rp. $data_rank[harga]</p>";
+                            echo "<form action='server/cart_process.php?id=$data_rank[id]&email=$email' method=POST>";
+                            echo "<div class='input-group mb-3'>";
+                            echo "<input type=number class=form-control name='jumlah' id='jumlah' placeholder=0 aria-describedby=button-addon2 required min=0 onkeypress='return isNumberKey(event)'>";
+                            echo "</div>";
+                            echo "<div class='d-grid'>";
+                            echo "<button class='btn btn-primary' type=submit>Tambahkan</button>'";
+                            echo "</div>";
+                            echo "</form>";
+                            echo "</div>";
+                            echo "</div>";
+                            echo "</div>";
+                        }
+                        ?>
                     </div>
                 </div>
             </section>

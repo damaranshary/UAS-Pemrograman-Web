@@ -1,15 +1,16 @@
 <?php
 include "server/connection.php";
 $email = $_SESSION['email'];
-$query = mysqli_query($connect, "SELECT name FROM users WHERE email='$email'");
+$query = mysqli_query($connect, "SELECT name, id FROM users WHERE email='$email'");
 $row = mysqli_fetch_assoc($query);
 $name = $row["name"];
+$id = $row['id'];
 
 ?>
 <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
     <div class="container py-2 py-lg-3">
         <a class="navbar-brand" href="index.php">
-            <img src="assets/img/logo.svg" alt="" width="" height="80">
+            <img src="assets/img/logo.svg" alt="" width="" height="25">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -27,7 +28,16 @@ $name = $row["name"];
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="checkout.php">
-                            <i class="fas fa-shopping-cart me-2"></i>Checkout
+                            <i class="fas fa-shopping-cart me-2"></i>
+                            <?php
+                            $query_gettotalcart = mysqli_query($connect, "SELECT *FROM keranjang WHERE id_pengguna = $id");
+                            $data_gettotalcart = mysqli_num_rows($query_gettotalcart);
+                            if ($data_gettotalcart == 0) {
+                                echo "Checkout";
+                            } else {
+                                echo "Checkout <span class='badge bg-secondary'>$data_gettotalcart</span>";
+                            }
+                            ?>
                         </a>
                     </li>
                     <li class="nav-item dropdown ms-lg-3">
