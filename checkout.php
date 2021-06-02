@@ -92,7 +92,7 @@ mysqli_next_result($connect);
                         <div class="p-1">
                             <p>Masukan detail pengerjaan untuk jasa yang anda pilih</p>
                         </div>
-                        <textarea class="form-control" name="instruksi" form="checkout-form" id="exampleFormControlTextarea1" rows="4" style="resize: none;"></textarea>
+                        <textarea class="form-control" name="instruksi" form="checkout-form" id="exampleFormControlTextarea1" rows="4" style="resize: none;" required></textarea>
                     </div>
 
                     <div class="row mt-2 mb-5 ms-3 ms-md-auto">
@@ -102,7 +102,7 @@ mysqli_next_result($connect);
                         <div class="p-1">
                             <p>Tentukan waktu pengambilan pakaian untuk jasa yang anda gunakan</p>
                         </div>
-                        <input class="form-control" type="datetime-local" form="checkout-form" id="meeting_time" name="meeting_time">
+                        <input class="form-control" type="datetime-local" form="checkout-form" id="meeting_time" name="meeting_time" required>
 
                     </div>
 
