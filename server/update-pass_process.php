@@ -8,9 +8,9 @@ $user_status = mysqli_num_rows($query_find);
 
 if ($user_status == 1) {
     $password = password_hash($new_pass, PASSWORD_DEFAULT);
-    $query_update = "UPDATE users SET password='$password' WHERE  username='$username' AND email='$email'";
+    $query_update = "UPDATE users SET password='$password' WHERE email='$email'";
     mysqli_query($connect, $query_update);
-    //header("location: ../resources/pages/login.php");
+    header("location: ../login.php");
 } else {
     echo "Error";
 }

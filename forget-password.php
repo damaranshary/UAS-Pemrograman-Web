@@ -28,35 +28,30 @@ session_start(); ?>
 
         <div class="col-md-6 p-0 bg-white h-md-100 loginarea">
             <div class="d-md-flex align-items-center h-md-100 p-5 justify-content-center">
-                <form action="server/login_process.php" method="POST" style="width: 350px;">
+                <form action="server/update-pass_process.php" method="POST" style="width: 350px;">
                     <div class="text-center">
-                        <img class="mb-3" src="assets/img/logo.svg" alt="" width="120px">
-                        <h2 class="mb-5">Selamat datang!</h2>
+                        <h2 class="mb-5">Ganti password anda</h2>
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email address</label>
                         <input type="email" class="form-control" name="email" id="email">
                     </div>
                     <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" name="password" id="password">
+                        <label for="password" class="form-label">Password baru</label>
+                        <input type="password" class="form-control" name="new_pass" id="new_pass">
                     </div>
 
                     <div class="row mb-3">
                         <div class="col">
                             <div class="d-grid">
-                                <button type="submit" class="btn btn-primary">Masuk</button>
+                                <button type="submit" class="btn btn-primary">Ganti Password</button>
                             </div>
                         </div>
                         <div class="col">
                             <div class="d-grid">
-                                <a href="register.php" class="btn btn-outline-primary">Registrasi</a>
+                                <a href="login.php" class="btn btn-outline-primary">Kembali</a>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="text-center">
-                        <a href="forget-password.php" style="text-decoration: none; color: black;">Lupa Password</a>
                     </div>
                 </form>
             </div>
