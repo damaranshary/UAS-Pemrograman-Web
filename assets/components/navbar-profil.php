@@ -19,7 +19,7 @@ $name = $row["name"];
                 <ul class="navbar-nav">
                     <li class="nav-item me-4">
                         <a class="nav-link" aria-current="page" href="index.php">
-                            <i class="fas fa-home me-2"></i>Home
+                            <i class="fas fa-home me-2"></i>Halaman Utama
                         </a>
                     </li>
                     <li class="nav-item me-4">

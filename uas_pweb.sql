@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 01, 2021 at 03:59 PM
+-- Generation Time: Jun 02, 2021 at 03:29 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.11
 
@@ -25,6 +25,10 @@ DELIMITER $$
 --
 -- Procedures
 --
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteAlamatID` (IN `idAlamat` INT)  begin
+DELETE FROM alamat WHERE id_alamat=idAlamat;
+end$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteKeranjangID` (IN `idKeranjang` INT)  begin
 DELETE FROM keranjang WHERE id=idKeranjang;
 end$$
@@ -74,6 +78,15 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `insertUsers` (IN `in_name` VARCHAR(
 	VALUES(in_name, in_email, in_password);
 END$$
 
+--
+-- Functions
+--
+CREATE DEFINER=`root`@`localhost` FUNCTION `getJumlahAlamat` (`idPengguna` INT, `labelAlamat` VARCHAR(30)) RETURNS INT(11) begin
+declare jumlahAlamat int;
+SELECT count(label) into jumlahAlamat FROM alamat WHERE id_pengguna=idPengguna AND label=labelAlamat;
+return jumlahAlamat;
+end$$
+
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -99,8 +112,8 @@ CREATE TABLE `alamat` (
 
 INSERT INTO `alamat` (`id_alamat`, `id_pengguna`, `label`, `nama_penerima`, `telepon`, `alamat`, `area`, `kodepos`) VALUES
 (1, 1, 'Rumah', 'irr', '091', 'rumah', 'Cibiru', '1252'),
-(2, 1, 'Rumah', 'irr', '091', 'rumah', 'Cibiru', '1252'),
-(3, 12, 'Rumah 1', 'Admin Ganteng', '088888888', 'Jln. Ganteng', 'Cibiru', '190425');
+(3, 12, 'Rumah 1', 'Admin Ganteng', '088888888', 'Jln. Ganteng', 'Cibiru', '190425'),
+(4, 1, 'Rumah 2', 'Admin', '0891234568', 'Rumah Admin B01/44', 'Cibiru', '190425');
 
 -- --------------------------------------------------------
 
@@ -259,7 +272,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `alamat`
 --
 ALTER TABLE `alamat`
-  MODIFY `id_alamat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_alamat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `jasa`

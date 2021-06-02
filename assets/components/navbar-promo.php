@@ -19,7 +19,7 @@ $name = $row["name"];
                 <ul class="navbar-nav">
                     <li class="nav-item me-4">
                         <a class="nav-link" aria-current="page" href="index.php">
-                            <i class="fas fa-home me-2"></i>Home
+                            <i class="fas fa-home me-2"></i>Halaman Utama
                         </a>
                     </li>
                     <li class="nav-item me-4">
@@ -34,8 +34,8 @@ $name = $row["name"];
                         <!-- <button class="btn button-primary btn-primary px-4 me-2" type="submit">Login</button> -->
                         <a class="nav-link" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user me-2"></i><?php echo "$name" ?></a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="profile.php">Profile</a></li>
-                            <li><a class="dropdown-item" href="server/logout_process.php">Logout</a></li>
+                            <li><a class="dropdown-item" href="profile.php">Profil</a></li>
+                            <li><a class="dropdown-item" href="server/logout_process.php">Keluar</a></li>
                         </ul>
                     </li>
                 </ul>

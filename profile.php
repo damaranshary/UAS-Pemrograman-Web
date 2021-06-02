@@ -39,7 +39,7 @@ if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
         <?php
         include "assets/components/navbar-profil.php"
         ?>
-        <main>
+        <main class="mt-5">
             <div class="container mt-3 mb-5">
                 <?php echo "$alert" ?>
                 <a href="index.php" class="text-black-50 mt-5" style="text-decoration: none;"><i class="fas fa-chevron-left me-2"></i>Kembali ke halaman utama</a>
