@@ -20,8 +20,8 @@ if ($jum_data > 0) {
 
         header("location: ../index.php");
     } else {
-        echo "Insert correct password";
+        header("location: ../login.php?login_error=true");
     }
 } else {
-    header("location: ../login.php");
+    header("location: ../login.php?login_error=true");
 }

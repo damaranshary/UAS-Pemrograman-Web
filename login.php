@@ -42,6 +42,19 @@ session_start(); ?>
                         <input type="password" class="form-control" name="password" id="password" minlength="8" required>
                     </div>
 
+                    <p class="d-none"><?php $login_error = mysqli_real_escape_string($connect, $_GET['login_error']); ?></p>
+                    <?php
+                    if (empty($login_error)) {
+                        $alert =" ";
+                    }
+                    else{
+                        $alert = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
+                        Email atau Password anda salah.
+                        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                        </div>";
+                    }
+                    ?>
+                    
                     <div class="row mb-3">
                         <div class="col">
                             <div class="d-grid">
