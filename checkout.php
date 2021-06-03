@@ -25,12 +25,22 @@ mysqli_next_result($connect);
 </head>
 
 <body>
+    <p class="d-none"><?php $status_transaksi = mysqli_real_escape_string($connect, $_GET['status_transaksi']); ?></p>
     <?php
-    include "assets/components/navbar-checkout.php"
+    include "assets/components/navbar-checkout.php";
+    if (empty($status_transaksi)) {
+        $alert = "";
+    } else {
+        $alert = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
+        Keranjang anda kosong
+        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+        </div>";
+    }
     ?>
     <main class="mt-5">
         <form id="checkout-form" method="POST" action="server/transaksi_process.php"></form>
         <div class="container">
+            <?php echo "$alert" ?>
             <div class="row">
                 <div class="col me-3">
                     <div class="row ms-3 ms-md-auto">

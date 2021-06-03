@@ -12,6 +12,17 @@ session_start(); ?>
 </head>
 
 <body>
+    <p class="d-none"><?php $status_registrasi = mysqli_real_escape_string($connect, $_GET['status']); ?></p>
+    <?php
+    if (empty($status_registrasi)) {
+        $alert = "";
+    } else {
+        $alert = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
+        Email telah terdaftar
+        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+        </div>";
+    }
+    ?>
     <div class="d-md-flex h-md-100 align-items-center">
 
         <!-- First Half -->
@@ -32,6 +43,7 @@ session_start(); ?>
                     <div class="text-center">
                         <img class="mb-3" src="assets/img/logo.svg" alt="" width="120px">
                         <h2 class="mb-5">Buat akun anda</h2>
+                        <?php echo "$alert" ?>
                     </div>
                     <!-- Name input -->
                     <div class="form-outline mb-3">
@@ -48,7 +60,7 @@ session_start(); ?>
                     <!-- Password input -->
                     <div class="form-outline mb-3">
                         <label class="form-label" for="password">Password</label>
-                        <input type="password" name="password" id="password" class="form-control" required />
+                        <input type="password" name="password" id="password" class="form-control" minlength="8" required />
                     </div>
 
                     <div class="row mb-3">
