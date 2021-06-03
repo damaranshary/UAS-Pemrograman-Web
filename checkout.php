@@ -165,23 +165,31 @@ mysqli_next_result($connect);
                                     $pengiriman = 5000;
                                     //
                                     $query_getcart = mysqli_query($connect, "CALL getKeranjang('$id')");
+                                    $data_countcart = mysqli_num_rows($query_getcart);
                                     mysqli_next_result($connect);
                                     $biayajasa = 0;
-                                    while ($data_getcart = mysqli_fetch_array($query_getcart)) {
-                                        echo "<div class=col-4>";
-                                        echo "<img src='https://storage.googleapis.com/uaspweb/img/$data_getcart[image].png' class='card-img' alt=...>";
+                                    if ($data_countcart == 0) {
+                                        echo "<div class=text-center>";
+                                        echo "<h5>Keranjang masih kosong</h5>";
+                                        echo "<p>Tambahkan jasa ke keranjang anda</p>";
                                         echo "</div>";
-                                        echo "<div class=col-8>";
-                                        echo "<h5 class=card-title>$data_getcart[nama] - $data_getcart[jenis]</h5>";
-                                        echo "<p class=card-text>";
-                                        echo "$data_getcart[jumlah] buah <br>";
-                                        echo "Rp. $data_getcart[harga] <br></p>";
-                                        echo "<form method=POST action=server/deletecart_process.php?id=$data_getcart[id_keranjang]>";
-                                        echo "<button class='btn btn-primary' type=submit>Hapus</button>";
-                                        echo "</form>";
-                                        echo "</div>";
-                                        echo "<span class=border-bottom></span>";
-                                        $biayajasa = $biayajasa + $data_getcart['harga'];
+                                    } else {
+                                        while ($data_getcart = mysqli_fetch_array($query_getcart)) {
+                                            echo "<div class=col-4>";
+                                            echo "<img src='https://storage.googleapis.com/uaspweb/img/$data_getcart[image].png' class='card-img' alt=...>";
+                                            echo "</div>";
+                                            echo "<div class=col-8>";
+                                            echo "<h5 class=card-title>$data_getcart[nama] - $data_getcart[jenis]</h5>";
+                                            echo "<p class=card-text>";
+                                            echo "$data_getcart[jumlah] buah <br>";
+                                            echo "Rp. $data_getcart[harga] <br></p>";
+                                            echo "<form method=POST action=server/deletecart_process.php?id=$data_getcart[id_keranjang]>";
+                                            echo "<button class='btn btn-primary' type=submit>Hapus</button>";
+                                            echo "</form>";
+                                            echo "</div>";
+                                            echo "<span class=border-bottom></span>";
+                                            $biayajasa = $biayajasa + $data_getcart['harga'];
+                                        }
                                     }
                                     $query_getpromo = mysqli_query($connect, "CALL getTransaksiID('$id')");
                                     $data_getpromo = mysqli_num_rows($query_getpromo);
