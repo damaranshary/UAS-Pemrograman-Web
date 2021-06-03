@@ -54,7 +54,8 @@ session_start(); ?>
                         </div>";
                     }
                     ?>
-                    
+                    <?php echo "$alert"?>
+
                     <div class="row mb-3">
                         <div class="col">
                             <div class="d-grid">
