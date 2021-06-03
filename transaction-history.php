@@ -9,6 +9,7 @@ $data_getprofile = mysqli_fetch_array($query_getprofile);
 $id = $data_getprofile['id'];
 mysqli_next_result($connect);
 $query_gethistory = mysqli_query($connect, "CALL getHistoriTransaksi('$id')");
+$data_counthistory = mysqli_num_rows($query_gethistory);
 mysqli_next_result($connect);
 if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
     header("location: login.php");
@@ -37,17 +38,25 @@ if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
                 </div>
                 <div class="my-5">
                     <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Jasa</th>
-                                <th scope="col">Jumlah</th>
-                                <th scope="col">Waktu Pengambilan</th>
-                                <th scope="col">Total</th>
-                                <th scope="col">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                        <?php
+                        if ($data_counthistory == 0) {
+                            echo "<div class=text-center>";
+                            echo "<h5>Histori transaksi masih kosong</h5>";
+                            echo "<p>Selesaikan transaksi anda</p>";
+                            echo "</div>";
+                        } else {
+                        ?>
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Jasa</th>
+                                    <th scope="col">Jumlah</th>
+                                    <th scope="col">Waktu Pengambilan</th>
+                                    <th scope="col">Total</th>
+                                    <th scope="col">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
                             <?php
                             while ($data_gethistory = mysqli_fetch_array($query_gethistory)) {
                                 echo "<tr>";
@@ -59,8 +68,9 @@ if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
                                 echo "<td>$data_gethistory[status]</td>";
                                 echo "</tr>";
                             }
+                        }
                             ?>
-                        </tbody>
+                            </tbody>
                     </table>
                 </div>
             </div>

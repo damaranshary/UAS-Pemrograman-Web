@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 02, 2021 at 05:09 PM
+-- Generation Time: Jun 03, 2021 at 03:45 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.11
 
@@ -39,6 +39,10 @@ end$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getAlamatID2` (IN `idPengguna` INT, IN `idAlamat` INT)  begin
 SELECT * from alamat WHERE id_pengguna = idPengguna AND id_alamat=idAlamat;
+end$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getHistoriTransaksi` (IN `idPengguna` INT)  begin
+select a.id_transaksi as id, c.nama as nama, c.jenis as jenis, a.kuantitas as jumlah, b.waktu_pengambilan as waktu_pengambilan, b.total as total, b.status as status from detil_transaksi a inner join transaksi b on a.id_transaksi = b.id_transaksi inner join jasa c on a.id_barang = c.id where b.id_users=idPengguna;
 end$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getJasaJenis` (IN `jenisJasa` VARCHAR(20))  begin
@@ -252,7 +256,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `name`, `email`, `password`) VALUES
 (1, 'Admin', 'admin@email.com', '$2y$10$.QV81Fg92a8rjJ68WnNVSuefZH7kL0IjMey9GjdynBj2QYWx5LH5.'),
 (12, 'ganteng', 'ganteng@banget.com', '$2y$10$TBoliRlcHW.hsANKz6oD8Oyv1jswAO3U3fBiAMSBo9UDnvYwItJO6'),
-(13, 'irfan', 'irfannm@mail.com', '$2y$10$g56VCade.GEqS2n92qxu4O4JE0zJEa3NIM0Yng4pGyeUNng5PIhMC');
+(13, 'irfan', 'irfannm@mail.com', '$2y$10$g56VCade.GEqS2n92qxu4O4JE0zJEa3NIM0Yng4pGyeUNng5PIhMC'),
+(14, 'testing', 'test@email.com', '$2y$10$52XuZ2C8GrmPyK0zSbk.Re./wX48cE53CCxDiFJpwSY3WedIxPAjS');
 
 --
 -- Indexes for dumped tables
@@ -339,7 +344,7 @@ ALTER TABLE `transaksi`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Constraints for dumped tables
