@@ -12,5 +12,5 @@ if ($user_status == 1) {
     mysqli_query($connect, $query_update);
     header("location: ../login.php");
 } else {
-    echo "Error";
+    header("location: ../forget-password.php?status=failed");
 }

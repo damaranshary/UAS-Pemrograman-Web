@@ -12,6 +12,17 @@ session_start(); ?>
 </head>
 
 <body>
+    <p class="d-none"><?php $status_update = mysqli_real_escape_string($connect, $_GET['status']); ?></p>
+    <?php
+    if (empty($status_update)) {
+        $alert = "";
+    } else {
+        $alert = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
+        Email yang anda masukan salah
+        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+        </div>";
+    }
+    ?>
     <div class="d-md-flex h-md-100 align-items-center">
 
         <!-- First Half -->
@@ -31,6 +42,7 @@ session_start(); ?>
                 <form action="server/update-pass_process.php" method="POST" style="width: 350px;">
                     <div class="text-center">
                         <h2 class="mb-5">Ganti password anda</h2>
+                        <?php echo "$alert" ?>
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email address</label>
