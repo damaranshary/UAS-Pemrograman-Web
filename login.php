@@ -32,9 +32,9 @@ session_start(); ?>
                     <div class="text-center">
                         <img class="mb-3" src="assets/img/logo.svg" alt="" width="120px">
                         <h2 class="mb-5">Selamat datang!</h2>
-                        <p class="d-none"><?php $login_error = mysqli_real_escape_string($connect, $_GET['login_error']); ?></p>
+                        <p class="d-none"><?php $login_attempt = mysqli_real_escape_string($connect, $_GET['login_attempt']); ?></p>
                         <?php
-                        if (empty($login_error)) {
+                        if (empty($login_attempt)) {
                             $alert = " ";
                         } else {
                             $alert = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
