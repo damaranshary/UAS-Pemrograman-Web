@@ -70,9 +70,9 @@ mysqli_next_result($connect);
                                         Kode Pos      : $data_getalamat_default[kodepos]
                                         </p>";
                                         echo "<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#changeAddress'>Ganti Alamat</button>";
+                                        echo "<input class='d-none' name=id-alamat form=checkout-form value=$data_getalamat_default[id_alamat]>";
                                         echo "</div>";
                                     }
-                                    echo "<input class='d-none' name=id-alamat form=checkout-form value=$data_getalamat_default[id_alamat]>";
                                 } else {
                                     $query_getalamat = mysqli_query($connect, "CALL getAlamatID2('$id', '$id_alamat')");
                                     $data_getalamat = mysqli_fetch_array($query_getalamat);
