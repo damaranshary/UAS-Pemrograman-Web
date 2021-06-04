@@ -24,5 +24,5 @@ if ($user_status == 0) {
     mysqli_query($connect, $query);
     //$_SESSION['success'] = "You are now logged in";
     //echo $username;
-    header('location: ../login.php');
+    header('location: ../login.php?status=register-success');
 }

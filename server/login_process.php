@@ -20,8 +20,8 @@ if ($jum_data > 0) {
 
         header("location: ../index.php");
     } else {
-        header("location: ../login.php?login_attempt=failed");
+        header("location: ../login.php?status=failed");
     }
 } else {
-    header("location: ../login.php?login_attempt=failed");
+    header("location: ../login.php?status=failed");
 }

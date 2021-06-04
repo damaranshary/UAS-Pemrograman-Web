@@ -10,7 +10,7 @@ if ($user_status == 1) {
     $password = password_hash($new_pass, PASSWORD_DEFAULT);
     $query_update = "UPDATE users SET password='$password' WHERE email='$email'";
     mysqli_query($connect, $query_update);
-    header("location: ../login.php");
+    header("location: ../login.php?status=update-password-success");
 } else {
     header("location: ../forget-password.php?status=failed");
 }
