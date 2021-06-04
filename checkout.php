@@ -32,7 +32,7 @@ mysqli_next_result($connect);
         $alert = "";
     } else {
         $alert = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
-        Keranjang anda kosong
+        Keranjang/Alamat anda kosong
         <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
         </div>";
     }
