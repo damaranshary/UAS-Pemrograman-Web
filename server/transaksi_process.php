@@ -21,6 +21,7 @@ $jumlah_keranjang = mysqli_num_rows($query_getcart);
 
 if ($jumlah_keranjang == 0) {
     header('location: ../checkout.php?status_transaksi=gagal');
+    mysqli_query($connect, "SET autocommit = 1");
 } else {
     $insert_transaksi = mysqli_query($connect, "CALL insertTransaksi('$id_users', '$id_alamat', '$instruksi', '$datetime', '$total', '$status')");
     mysqli_next_result($connect);
@@ -39,5 +40,6 @@ if ($jumlah_keranjang == 0) {
     $query_deletecart = mysqli_query($connect, "DELETE FROM keranjang WHERE id_pengguna='$id_users'");
 
     mysqli_query($connect, "COMMIT");
+    mysqli_query($connect, "SET autocommit = 1");
     header('location: ../index.php?status_transaksi=selesai');
 }
