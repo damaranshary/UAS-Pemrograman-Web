@@ -12,6 +12,9 @@ $status = "Proses";
 $datecreate = date_create($meeting_time);
 $datetime = date_format($datecreate, 'Y-m-d H:i:s');
 
+mysqli_query($connect, "SET autocommit = 0");
+mysqli_query($connect, "START TRANSACTION");
+
 $query_getcart = mysqli_query($connect, "CALL getKeranjang('$id_users')");
 mysqli_next_result($connect);
 $jumlah_keranjang = mysqli_num_rows($query_getcart);
@@ -35,5 +38,6 @@ if ($jumlah_keranjang == 0) {
     mysqli_next_result($connect);
     $query_deletecart = mysqli_query($connect, "DELETE FROM keranjang WHERE id_pengguna='$id_users'");
 
+    mysqli_query($connect, "COMMIT");
     header('location: ../index.php?status_transaksi=selesai');
 }

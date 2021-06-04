@@ -83,7 +83,7 @@ if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
                             echo "<p>Rp. $data_rank[harga]</p>";
                             echo "<form action='server/cart_process.php?id=$data_rank[id]&email=$email' method=POST>";
                             echo "<div class='input-group mb-3'>";
-                            echo "<input type=number class=form-control name='jumlah' id='jumlah' placeholder=0 aria-describedby=button-addon2 required min=0 onkeypress='return isNumberKey(event)'>";
+                            echo "<input type=number class=form-control name='jumlah' id='jumlah' placeholder=0 aria-describedby=button-addon2 required min=1 onkeypress='return isNumberKey(event)'>";
                             echo "</div>";
                             echo "<div class='d-grid'>";
                             echo "<button class='btn btn-primary' type=submit>Tambahkan</button>'";
@@ -131,7 +131,7 @@ if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
                                     echo "<p>Rp. $data_permak[harga]</p>";
                                     echo "<form action='server/cart_process.php?id=$data_permak[id]&email=$email' method=POST>";
                                     echo "<div class='input-group mb-3'>";
-                                    echo "<input type=number class=form-control name='jumlah' id='jumlah' placeholder=0 aria-describedby=button-addon2 required min=0 onkeypress='return isNumberKey(event)'>";
+                                    echo "<input type=number class=form-control name='jumlah' id='jumlah' placeholder=0 aria-describedby=button-addon2 required min=1 onkeypress='return isNumberKey(event)'>";
                                     echo "</div>";
                                     echo "<div class='d-grid'>";
                                     echo "<button class='btn btn-primary' type=submit>Tambahkan</button>'";

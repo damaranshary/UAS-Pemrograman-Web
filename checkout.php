@@ -254,7 +254,24 @@ mysqli_next_result($connect);
                                     </div>
                                 </div>
                             </div>
-                            <button type='submit' class='btn btn-primary' form="checkout-form">Lakukan Transaksi</button>
+                            <button type='button' class='btn btn-primary' form="checkout-form" data-bs-toggle="modal" data-bs-target="#exampleModal">Lakukan Transaksi</button>
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Transaksi</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Konfirmasi lakukan transaksi? Transaksi yang telah dilakukan tidak dapat dibatalkan.
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                            <button type='submit' class='btn btn-primary' form="checkout-form">Konfimasi</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
