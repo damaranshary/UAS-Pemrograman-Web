@@ -51,7 +51,7 @@ if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
                                     <th scope="col">ID</th>
                                     <th scope="col">Jasa</th>
                                     <th scope="col">Jumlah</th>
-                                    <th scope="col">Waktu Pengambilan</th>
+                                    <th scope="col">Waktu Penjemputan</th>
                                     <th scope="col">Total</th>
                                     <th scope="col">Status</th>
                                 </tr>

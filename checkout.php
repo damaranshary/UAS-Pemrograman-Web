@@ -107,10 +107,10 @@ mysqli_next_result($connect);
 
                     <div class="row mt-2 mb-5 ms-3 ms-md-auto">
                         <div class="heading mb-4">
-                            <h3>Waktu Pengambilan</h3>
+                            <h3>Waktu Penjemputan</h3>
                         </div>
                         <div class="p-1">
-                            <p>Tentukan waktu pengambilan pakaian untuk jasa yang anda gunakan</p>
+                            <p>Tentukan waktu penjemputan pakaian dari rumah anda untuk jasa yang anda gunakan</p>
                         </div>
                         <input class="form-control" type="datetime-local" form="checkout-form" id="meeting_time" name="meeting_time" required>
 
