@@ -104,8 +104,8 @@ $data_countgetjasa = mysqli_num_rows($query_getjasa);
             <?php
             if ($data_countgetjasa == 0) {
                 echo "<div class='text-center py-5'>";
-                echo "<h5>Saran dan Komplain anda masih kosong</h5>";
-                echo "<p>Tambahkan saran dan komplain anda</p>";
+                echo "<h5>Jasa masih kosong</h5>";
+                echo "<p>Tambahkan jasa anda</p>";
                 echo "</div>";
             } else {
             ?>
