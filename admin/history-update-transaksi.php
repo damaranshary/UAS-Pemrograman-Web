@@ -1,7 +1,7 @@
 <?php
 include "../server/connection.php";
-$query_gettransaksi = mysqli_query($connect, "SELECT * FROM transaksi");
-$data_countgettransaksi = mysqli_num_rows($query_gettransaksi);
+$query_getupdatetransaksi = mysqli_query($connect, "SELECT * FROM history_update_transaksi");
+$data_countgetupdatetransaksi = mysqli_num_rows($query_getupdatetransaksi);
 ?>
 
 <!DOCTYPE html>
@@ -54,12 +54,12 @@ $data_countgettransaksi = mysqli_num_rows($query_gettransaksi);
         <div class="row mb-4">
             <div class="col">
                 <div class="heading">
-                    <h3>Transaksi</h3>
+                    <h3>Histori Update Transaksi</h3>
                 </div>
             </div>
     <table class="table mb-5">
             <?php
-            if ($data_countgettransaksi == 0) {
+            if ($data_countgetupdatetransaksi == 0) {
                 echo "<div class='text-center py-5'>";
                 echo "<h5>Belum Ada Transaksi</h5>";
                 echo "</div>";
@@ -68,43 +68,19 @@ $data_countgettransaksi = mysqli_num_rows($query_gettransaksi);
                 <thead>
                     <tr>
                         <th scope="col">ID Transaksi</th>
-                        <th scope="col">ID Pengguna</th>
-                        <th scope="col">ID Alamat</th>
-                        <th scope="col">Instruksi</th>
-                        <th scope="col">Waktu Pengambilan</th>
-                        <th scope="col">Total</th>
                         <th scope="col">Status</th>
+                        <th scope="col">Waktu Update</th>
                     </tr>
                 </thead>
                 <tbody>
                 <?php
                 $nomor = 0;
-                while ($data_gettransaksi = mysqli_fetch_array($query_gettransaksi)) {
+                while ($data_getupdatetransaksi = mysqli_fetch_array($query_getupdatetransaksi)) {
                     echo "<tr>";
-                    echo "<th scope=row>$data_gettransaksi[id_transaksi]</th>";
-                    echo "<td>$data_gettransaksi[id_alamat]</td>";
-                    echo "<td>$data_gettransaksi[id_users]</td>";
-                    echo "<td>$data_gettransaksi[intruksi]</td>";
-                    echo "<td>$data_gettransaksi[waktu_pengambilan]</td>";
-                    echo "<td>Rp. $data_gettransaksi[total]</td>";
-                    echo "<td>
-                    <button type='button' class='btn btn-outline-primary' data-bs-toggle='modal' data-bs-target='#exampleModal$nomor'>$data_gettransaksi[status]</button>
-                    </td>";
+                    echo "<th scope=row>$data_getupdatetransaksi[id_transaksi]</th>";
+                    echo "<td>$data_getupdatetransaksi[status]</td>";
+                    echo "<td>$data_getupdatetransaksi[waktu_update]</td>";
                     echo "</tr>";
-                    echo "<div class='modal fade' id='exampleModal$nomor' tabindex=-1 aria-labelledby='exampleModalLabel' aria-hidden='true'>";
-                    echo '<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">';
-                    echo '<div class="modal-content">';
-                    echo '<div class="modal-header">';
-                    echo '<h5 class="modal-title" id="exampleModalLabel">Update Proses</h5>';
-                    echo '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
-                    echo '</div>';
-                    echo '<div class="modal-body">';
-                    echo '<div class="list-group">';
-                    echo "<a href='server/update-transaksi_process.php?status=Proses&id=$data_gettransaksi[id_transaksi]' class='list-group-item list-group-item-action'>Proses</a>";
-                    echo "<a href='server/update-transaksi_process.php?status=Pengembalian&id=$data_gettransaksi[id_transaksi]' class='list-group-item list-group-item-action'> Pengembalian</a>";
-                    echo "<a href='server/update-transaksi_process.php?status=Selesai&id=$data_gettransaksi[id_transaksi]' class='list-group-item list-group-item-action'>Selesai</a>";
-                    echo '</div>';
-                    echo '</div>';
                     echo '</div>';
                     echo '</div>';
                     echo '</div>';
