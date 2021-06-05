@@ -2,10 +2,10 @@
 -- version 5.0.3
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Jun 03, 2021 at 05:41 PM
+-- Host: 127.0.0.1
+-- Generation Time: Jun 05, 2021 at 05:11 PM
 -- Server version: 10.4.14-MariaDB
--- PHP Version: 7.4.11
+-- PHP Version: 7.2.34
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -145,7 +145,9 @@ INSERT INTO `detil_alamat` (`id`, `id_transaksi`, `label`, `alamat`, `nama_pener
 (1, 44, 'Rumah 2', 'Rumah Admin B01/44, Cibiru, 190425', 'Admin', '0891234568'),
 (2, 45, 'Rumah 2', 'Rumah Admin B01/44, Cibiru, 190425', 'Admin', '0891234568'),
 (3, 46, 'Rumah 2', 'Rumah Admin B01/44, Cibiru, 190425', 'Admin', '0891234568'),
-(4, 47, 'Rumah Besar', 'Rumah Admin Besar R44/41, Kabupaten Cibiru, Cibiru, 190425', 'Admin Ganteng', '0819999999');
+(4, 47, 'Rumah Besar', 'Rumah Admin Besar R44/41, Kabupaten Cibiru, Cibiru, 190425', 'Admin Ganteng', '0819999999'),
+(5, 48, 'Rumah 2', 'Rumah Admin B01/44, Cibiru, 190425', 'Admin', '0891234568'),
+(6, 49, 'Rumah 2', 'Rumah Admin B01/44, Cibiru, 190425', 'Admin', '0891234568');
 
 -- --------------------------------------------------------
 
@@ -178,15 +180,17 @@ INSERT INTO `detil_transaksi` (`id_transaksi`, `id_barang`, `kuantitas`, `id`) V
 (43, 4, 2, 24),
 (45, 1, 1, 25),
 (46, 3, 20, 26),
-(47, 10, 2, 27);
+(47, 10, 2, 27),
+(48, 1, 1, 28),
+(49, 3, 1, 29);
 
 -- --------------------------------------------------------
 
 --
--- Stand-in structure for view `historiTransaksi`
+-- Stand-in structure for view `historitransaksi`
 -- (See below for the actual view)
 --
-CREATE TABLE `historiTransaksi` (
+CREATE TABLE `historitransaksi` (
 `id_users` int(11)
 ,`id` int(11)
 ,`nama` varchar(30)
@@ -196,6 +200,30 @@ CREATE TABLE `historiTransaksi` (
 ,`total` int(11)
 ,`status` varchar(20)
 );
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `history_update_transaksi`
+--
+
+CREATE TABLE `history_update_transaksi` (
+  `id_transaksi` int(11) DEFAULT NULL,
+  `status` varchar(20) DEFAULT NULL,
+  `waktu_update` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `history_update_transaksi`
+--
+
+INSERT INTO `history_update_transaksi` (`id_transaksi`, `status`, `waktu_update`) VALUES
+(49, 'Proses', '2021-06-05 20:39:21'),
+(49, 'selesai', '2021-06-05 20:45:31'),
+(1, 'selesai', '2021-06-05 21:56:11'),
+(1, 'prosses', '2021-06-05 21:59:29'),
+(1, 'Proses', '2021-06-05 22:01:55'),
+(1, 'Pengembalian', '2021-06-05 22:05:39');
 
 -- --------------------------------------------------------
 
@@ -271,7 +299,7 @@ CREATE TABLE `transaksi` (
 --
 
 INSERT INTO `transaksi` (`id_transaksi`, `id_users`, `id_alamat`, `intruksi`, `waktu_pengambilan`, `total`, `status`) VALUES
-(1, 1, 1, 'Halooo', '2021-06-02 14:16:00', 328000, 'Proses'),
+(1, 1, 1, 'Halooo', '2021-06-02 14:16:00', 328000, 'Pengembalian'),
 (2, 1, 1, 'Haloo', '2021-06-02 11:10:31', 465000, 'Proses'),
 (3, 1, 1, 'Haloo', '2021-06-02 11:12:06', 465000, 'Proses'),
 (4, 1, 1, 'Haloo', '2021-06-02 11:19:15', 465000, 'Proses'),
@@ -289,7 +317,9 @@ INSERT INTO `transaksi` (`id_transaksi`, `id_users`, `id_alamat`, `intruksi`, `w
 (44, 1, 4, 'Bolong', '2021-06-04 22:31:48', 200000, 'Proses'),
 (45, 1, 4, 'Ngetes gan', '2021-06-03 22:34:00', 95000, 'Proses'),
 (46, 1, 4, 'Tesst lagi', '2021-06-03 22:36:00', 1205000, 'Proses'),
-(47, 1, 6, 'Test ganti alamat', '2021-06-03 22:40:00', 165000, 'Proses');
+(47, 1, 6, 'Test ganti alamat', '2021-06-03 22:40:00', 165000, 'Proses'),
+(48, 1, 4, 'gas', '2021-06-10 19:40:00', 95000, 'Proses'),
+(49, 1, 4, 'sok we gas', '2021-06-17 20:39:00', 60000, 'selesai');
 
 --
 -- Triggers `transaksi`
@@ -304,6 +334,18 @@ declare alamatPenerima varchar(500);
 select label, nama_penerima, telepon, concat(alamat, ", ", area, ", ", kodepos) into labelAlamat, namaPenerima, telp, alamatPenerima from alamat where id_pengguna=new.id_users AND id_alamat=new.id_alamat;
 
 insert into detil_alamat (id_transaksi, label, alamat, nama_penerima, telepon) values (new.id_transaksi, labelAlamat, alamatPenerima, namaPenerima, telp);
+end
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `insertHistoryUpdateTransaksi` AFTER INSERT ON `transaksi` FOR EACH ROW begin
+insert into history_update_transaksi values(new.id_transaksi, new.status, NOW());
+end
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `updateHistoryUpdateTransaksi` AFTER UPDATE ON `transaksi` FOR EACH ROW begin
+insert into history_update_transaksi values(old.id_transaksi, new.status, NOW());
 end
 $$
 DELIMITER ;
@@ -334,11 +376,11 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure for view `historiTransaksi`
+-- Structure for view `historitransaksi`
 --
-DROP TABLE IF EXISTS `historiTransaksi`;
+DROP TABLE IF EXISTS `historitransaksi`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `historiTransaksi`  AS SELECT `b`.`id_users` AS `id_users`, `a`.`id_transaksi` AS `id`, `c`.`nama` AS `nama`, `c`.`jenis` AS `jenis`, `a`.`kuantitas` AS `jumlah`, `b`.`waktu_pengambilan` AS `waktu_pengambilan`, `b`.`total` AS `total`, `b`.`status` AS `status` FROM ((`detil_transaksi` `a` join `transaksi` `b` on(`a`.`id_transaksi` = `b`.`id_transaksi`)) join `jasa` `c` on(`a`.`id_barang` = `c`.`id`)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `historitransaksi`  AS SELECT `b`.`id_users` AS `id_users`, `a`.`id_transaksi` AS `id`, `c`.`nama` AS `nama`, `c`.`jenis` AS `jenis`, `a`.`kuantitas` AS `jumlah`, `b`.`waktu_pengambilan` AS `waktu_pengambilan`, `b`.`total` AS `total`, `b`.`status` AS `status` FROM ((`detil_transaksi` `a` join `transaksi` `b` on(`a`.`id_transaksi` = `b`.`id_transaksi`)) join `jasa` `c` on(`a`.`id_barang` = `c`.`id`)) ;
 
 --
 -- Indexes for dumped tables
@@ -364,6 +406,12 @@ ALTER TABLE `detil_alamat`
 ALTER TABLE `detil_transaksi`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_barang` (`id_barang`),
+  ADD KEY `id_transaksi` (`id_transaksi`);
+
+--
+-- Indexes for table `history_update_transaksi`
+--
+ALTER TABLE `history_update_transaksi`
   ADD KEY `id_transaksi` (`id_transaksi`);
 
 --
@@ -408,13 +456,13 @@ ALTER TABLE `alamat`
 -- AUTO_INCREMENT for table `detil_alamat`
 --
 ALTER TABLE `detil_alamat`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `detil_transaksi`
 --
 ALTER TABLE `detil_transaksi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `jasa`
@@ -426,13 +474,13 @@ ALTER TABLE `jasa`
 -- AUTO_INCREMENT for table `keranjang`
 --
 ALTER TABLE `keranjang`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -462,6 +510,12 @@ ALTER TABLE `detil_alamat`
 ALTER TABLE `detil_transaksi`
   ADD CONSTRAINT `detil_transaksi_ibfk_1` FOREIGN KEY (`id_barang`) REFERENCES `jasa` (`id`),
   ADD CONSTRAINT `detil_transaksi_ibfk_2` FOREIGN KEY (`id_transaksi`) REFERENCES `transaksi` (`id_transaksi`);
+
+--
+-- Constraints for table `history_update_transaksi`
+--
+ALTER TABLE `history_update_transaksi`
+  ADD CONSTRAINT `history_update_transaksi_ibfk_1` FOREIGN KEY (`id_transaksi`) REFERENCES `transaksi` (`id_transaksi`);
 
 --
 -- Constraints for table `keranjang`
