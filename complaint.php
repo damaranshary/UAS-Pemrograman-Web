@@ -76,14 +76,14 @@ if (!isset($_SESSION['email'])) {
                     echo '<form>';
                     echo '<div class="mb-3">';
                     echo '<label class="form-label" for="subjek">Pesan</label>';
-                    echo "<input type='text' class='form-control' name='subjek' id='subjek'  required readonly value=$data_getsarankomplain[pesan]>";
+                    echo "<textarea class='form-control' name='subjek' id='subjek' rows='4' style='resize: none;' required readonly>$data_getsarankomplain[pesan]</textarea>";
                     echo '</div>';
                     echo '<div class="mb-3">';
                     echo '<label class="form-label" for="subjek">Subjek</label>';
                     if (empty($data_getsarankomplain['responPesan'])) {
-                        echo "<input type='text' class='form-control' name='subjek' id='subjek'  required readonly value='Pesan belum dibalas'>";
+                        echo "<textarea class='form-control' name='subjek' id='subjek' rows='4' style='resize: none;' required readonly>Pesan belum dibalas</textarea>";
                     } else {
-                        echo "<input type='text' class='form-control' name='subjek' id='subjek'  required readonly  value=$data_getsarankomplain[responPesan]>";
+                        echo "<textarea class='form-control' name='subjek' id='subjek' rows='4' style='resize: none;' required readonly>$data_getsarankomplain[responPesan]</textarea>";
                     }
                     //echo "<input type='text' class='form-control' name='subjek' id='subjek'  required value=$data_getsarankomplain[responPesan]>";
                     echo '</div>';
@@ -99,7 +99,7 @@ if (!isset($_SESSION['email'])) {
                 ?>
                 </tbody>
         </table>
-        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
             Tambahkan
         </button>
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -112,7 +112,7 @@ if (!isset($_SESSION['email'])) {
                     <div class="modal-body">
                         <form method="POST" action="server/add-sarankomplain_process.php">
                             <div class="mb-3">
-                                <input class="d-none" value="1" required id="idpengguna" name="idpengguna">
+                                <input class="d-none" value="<?php echo "$id"  ?>" required id="idpengguna" name="idpengguna">
                                 <label for="idtransaksi" class="form-label">ID Transaksi</label>
                                 <select class="form-select" aria-label="Default select example" name="idtransaksi" id="idtransaksi" required>
                                     <?php
