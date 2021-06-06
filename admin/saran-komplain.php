@@ -2,6 +2,12 @@
 include "../server/connection.php";
 $query_getsaran = mysqli_query($connect, "SELECT * FROM saran_komplain");
 $data_countgetsaran = mysqli_num_rows($query_getsaran);
+session_start();
+if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
+    header("location: ../login.php");
+} else if ($_SESSION['email'] != "admin@yukadmin.com") {
+    header("location: ../login.php");
+} else if ($_SESSION['email'] == "admin@yukadmin.com") {
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,6 +46,10 @@ $data_countgetsaran = mysqli_num_rows($query_getsaran);
                     <li class="nav-item">
                         <a href="transaksi.php" class="nav-link text-truncate text-white">
                             <i class="fs-4 bi-cart-fill"></i> <span class="ms-1 d-none d-sm-inline">Transaksi</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="history-update-transaksi.php" class="nav-link text-truncate text-white">
+                            <i class="fs-4 bi-archive-fill"></i> <span class="ms-1 d-none d-sm-inline">Histori Update Transaksi</span></a>
                     </li>
                     <li class="nav-item">
                         <a href="saran-komplain.php" class="nav-link text-truncate text-white active">
@@ -138,3 +148,6 @@ $data_countgetsaran = mysqli_num_rows($query_getsaran);
 </body>
 
 </html>
+<?php
+}
+?>

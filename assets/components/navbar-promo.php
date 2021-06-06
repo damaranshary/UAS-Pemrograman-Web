@@ -46,6 +46,7 @@ $id = $row['id'];
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="transaction-history.php">Histori Transaksi</a></li>
                             <li><a class="dropdown-item" href="profile.php">Profil</a></li>
+                            <li><a class="dropdown-item" href="complaint.php">Saran dan Komplain</a></li>
                             <li><a class="dropdown-item" href="server/logout_process.php">Keluar</a></li>
                         </ul>
                     </li>

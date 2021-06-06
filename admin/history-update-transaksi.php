@@ -2,6 +2,12 @@
 include "../server/connection.php";
 $query_getupdatetransaksi = mysqli_query($connect, "SELECT * FROM history_update_transaksi");
 $data_countgetupdatetransaksi = mysqli_num_rows($query_getupdatetransaksi);
+session_start();
+if (empty($_SESSION['email']) and empty($_SESSION['status'])) {
+    header("location: ../login.php");
+} else if ($_SESSION['email'] != "admin@yukadmin.com") {
+    header("location: ../login.php");
+} else if ($_SESSION['email'] == "admin@yukadmin.com") {
 ?>
 
 <!DOCTYPE html>
@@ -39,8 +45,12 @@ $data_countgetupdatetransaksi = mysqli_num_rows($query_getupdatetransaksi);
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="transaksi.php" class="nav-link text-truncate text-white active">
+                        <a href="transaksi.php" class="nav-link text-truncate text-white">
                             <i class="fs-4 bi-cart-fill"></i> <span class="ms-1 d-none d-sm-inline">Transaksi</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="history-update-transaksi.php" class="nav-link text-truncate text-white active">
+                            <i class="fs-4 bi-archive-fill"></i> <span class="ms-1 d-none d-sm-inline">Histori Update Transaksi</span></a>
                     </li>
                     <li class="nav-item">
                         <a href="saran-komplain.php" class="nav-link text-truncate text-white">
@@ -57,7 +67,8 @@ $data_countgetupdatetransaksi = mysqli_num_rows($query_getupdatetransaksi);
                     <h3>Histori Update Transaksi</h3>
                 </div>
             </div>
-    <table class="table mb-5">
+        </div>
+        <table class="table mb-5">
             <?php
             if ($data_countgetupdatetransaksi == 0) {
                 echo "<div class='text-center py-5'>";
@@ -90,9 +101,12 @@ $data_countgetupdatetransaksi = mysqli_num_rows($query_getupdatetransaksi);
                 ?>
                 </tbody>
         </table>
-    </div>';
-        </div>';
+    </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
 </body>
 
 </html>
+<?php
+}
+?>
