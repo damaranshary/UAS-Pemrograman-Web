@@ -10,7 +10,7 @@ $jum_data = mysqli_num_rows($query);
 $row = mysqli_fetch_assoc($query);
 $solve_password = $row["password"];
 
-if ($email = "admin@yukadmin.com" && $password = "admin123") {
+if ($email == "admin@yukadmin.com" && $password == "admin123") {
     $_SESSION['email'] = $email;
     $_SESSION['status'] = "Sesi Admin";
 

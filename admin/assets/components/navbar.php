@@ -17,7 +17,7 @@
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
                         <!-- <button class="btn button-primary btn-primary px-4 me-2" type="submit">Login</button> -->
-                        <a role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: black; text-decoration: none;">Admin</a>
+                        <a role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: black; text-decoration: none;"><i class="fas fa-user me-2"></i>Admin</a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="../server/logout_process.php">Keluar</a></li>
                         </ul>

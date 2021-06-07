@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 06, 2021 at 03:52 AM
+-- Generation Time: Jun 07, 2021 at 04:42 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.11
 
@@ -134,7 +134,8 @@ INSERT INTO `alamat` (`id_alamat`, `id_pengguna`, `label`, `nama_penerima`, `tel
 (7, 15, 'Rumah Saya', 'Test', '0812342521', 'Jalan Cibiru Indah 6', 'Cibiru', '109424'),
 (8, 15, 'Rumah Tetangga', 'Fajar', '081324512', 'Jalan Cibiru Indah 7', 'Cibiru', '190425'),
 (9, 16, 'Rumah', 'Admin Ganteng', '0819999999', 'Alamat Saya', 'Cibiru', '190425'),
-(10, 17, 'Rumah', 'Irfan', '0819999999', 'Jalan Rawena 1', 'Cibiru', '190425');
+(10, 17, 'Rumah', 'Irfan', '0819999999', 'Jalan Rawena 1', 'Cibiru', '190425'),
+(11, 18, 'Rumah', 'Testing 2', '08123142414', 'Jalan Cibiru Raya No 30', 'Cibiru', '190425');
 
 -- --------------------------------------------------------
 
@@ -164,7 +165,8 @@ INSERT INTO `detil_alamat` (`id`, `id_transaksi`, `label`, `alamat`, `nama_pener
 (6, 49, 'Rumah Tetangga', 'Jalan Cibiru Indah 7, Cibiru, 190425', 'Fajar', '081324512'),
 (7, 50, 'Rumah 2', 'Rumah Admin B01/44, Cibiru, 190425', 'Admin', '0891234568'),
 (8, 51, 'Rumah', 'Alamat Saya, Cibiru, 190425', 'Admin Ganteng', '0819999999'),
-(9, 52, 'Rumah', 'Jalan Rawena 1, Cibiru, 190425', 'Irfan', '0819999999');
+(9, 52, 'Rumah', 'Jalan Rawena 1, Cibiru, 190425', 'Irfan', '0819999999'),
+(10, 53, 'Rumah', 'Jalan Cibiru Raya No 30, Cibiru, 190425', 'Testing 2', '08123142414');
 
 -- --------------------------------------------------------
 
@@ -203,7 +205,9 @@ INSERT INTO `detil_transaksi` (`id_transaksi`, `id_barang`, `kuantitas`, `id`) V
 (49, 9, 2, 30),
 (50, 3, 2, 31),
 (51, 3, 2, 32),
-(52, 3, 2, 33);
+(52, 3, 2, 33),
+(53, 2, 3, 34),
+(53, 8, 2, 35);
 
 -- --------------------------------------------------------
 
@@ -242,7 +246,10 @@ INSERT INTO `history_update_transaksi` (`id_transaksi`, `status`, `waktu_update`
 (49, 'Pengembalian', '2021-06-06 07:40:52'),
 (45, 'Selesai', '2021-06-06 07:45:53'),
 (46, 'Pengembalian', '2021-06-06 08:17:58'),
-(48, 'Pengembalian', '2021-06-06 08:22:20');
+(48, 'Pengembalian', '2021-06-06 08:22:20'),
+(47, 'Pengembalian', '2021-06-07 09:30:48'),
+(53, 'Proses', '2021-06-07 09:36:12'),
+(53, 'Pengembalian', '2021-06-07 09:38:16');
 
 -- --------------------------------------------------------
 
@@ -325,7 +332,8 @@ INSERT INTO `saran_komplain` (`id`, `id_pengguna`, `id_transaksi`, `jenis`, `wak
 (1, 1, 50, 'Saran', '2021-06-04 18:31:12', 'Sukses', 'Celana saya sudah diperbaiki', 'Berhasil', ''),
 (2, 1, 1, 'Saran', '2021-06-04 21:01:16', 'sdasdasd', 'asdasdasdasda', 'Sudah di respon', 'Gak jelas gan'),
 (3, 1, 26, 'Komplain', '2021-06-04 21:04:17', 'Gagal Jahit', 'Error bang', 'Sudah di respon', 'Error kenapa bang? Silahkan hubungi kontak wa kami untuk diselesaikan masalahnya'),
-(4, 1, 1, 'Saran', '2021-06-05 10:42:22', 'Setelah dijahit masih bolong', 'Sad', 'Belum direspon', NULL);
+(4, 1, 1, 'Saran', '2021-06-05 10:42:22', 'Setelah dijahit masih bolong', 'Sad', 'Belum direspon', NULL),
+(5, 18, 53, 'Komplain', '2021-06-07 09:37:18', 'Status selalu proses', 'Apakah transaksi saya sudah dikerjakan? Saya buru-buru', 'Sudah di respon', 'Mohon bersabar bu. Nanti akan kita informasikan jika sudah selesai');
 
 -- --------------------------------------------------------
 
@@ -366,12 +374,13 @@ INSERT INTO `transaksi` (`id_transaksi`, `id_users`, `id_alamat`, `intruksi`, `w
 (44, 1, 4, 'Bolong', '2021-06-04 22:31:48', 200000, 'Proses'),
 (45, 1, 4, 'Ngetes gan', '2021-06-03 22:34:00', 95000, 'Selesai'),
 (46, 1, 4, 'Tesst lagi', '2021-06-03 22:36:00', 1205000, 'Pengembalian'),
-(47, 1, 6, 'Test ganti alamat', '2021-06-03 22:40:00', 165000, 'Proses'),
+(47, 1, 6, 'Test ganti alamat', '2021-06-03 22:40:00', 165000, 'Pengembalian'),
 (48, 15, 7, 'Saya ingin membuat kemeja lengan pendek dan membenarkan celana pendek saya yang bolong', '2021-06-04 13:00:00', 1544000, 'Pengembalian'),
 (49, 15, 8, 'HALO GUYS INI CUMA TEST AJA', '2021-06-04 08:27:00', 1005000, 'Pengembalian'),
 (50, 1, 4, 'Halo Transaksi', '2021-06-04 13:02:00', 125000, 'Proses'),
 (51, 16, 9, 'mmmmm', '2021-06-04 13:25:00', 119000, 'Proses'),
-(52, 17, 10, 'Jahit celana saya bolong', '2021-06-04 14:00:00', 119000, 'Proses');
+(52, 17, 10, 'Jahit celana saya bolong', '2021-06-04 14:00:00', 119000, 'Proses'),
+(53, 18, 11, 'Celana saya bolong dibagian bawah. Saya sudah siapkan model gamisnya', '2021-06-07 10:30:00', 993000, 'Pengembalian');
 
 --
 -- Triggers `transaksi`
@@ -446,7 +455,8 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`) VALUES
 (14, 'testing', 'test@email.com', '$2y$10$52XuZ2C8GrmPyK0zSbk.Re./wX48cE53CCxDiFJpwSY3WedIxPAjS'),
 (15, 'Test 1', 'test1@email.com', '$2y$10$USt5tPBseu4T31DfH9E.Eu79J7x65xin4etlJyO0r3221lxbeuKOi'),
 (16, 'testing', 'testing1@email.com', '$2y$10$QQF/2JW0cog0zFBPyelV/OPMI/HlOeLWSjPLehWew4W52SWwNtfbm'),
-(17, 'Irfan Nurghiffari M', 'irfannmuhajir12@gmail.com', '$2y$10$j01WaBtc6y6lJRpFcnWGVecyRu4B7BHCkkYoigkqaUuLqI1thNINW');
+(17, 'Irfan Nurghiffari M', 'irfannmuhajir12@gmail.com', '$2y$10$j01WaBtc6y6lJRpFcnWGVecyRu4B7BHCkkYoigkqaUuLqI1thNINW'),
+(18, 'testing 2', 'testing2@email.com', '$2y$10$.Oz9mX98nafQy5I/1KirYOpto6VWMuMPEFnh.VG.Zw95is1FjxepO');
 
 -- --------------------------------------------------------
 
@@ -540,19 +550,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `alamat`
 --
 ALTER TABLE `alamat`
-  MODIFY `id_alamat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_alamat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `detil_alamat`
 --
 ALTER TABLE `detil_alamat`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `detil_transaksi`
 --
 ALTER TABLE `detil_transaksi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `jasa`
@@ -564,25 +574,25 @@ ALTER TABLE `jasa`
 -- AUTO_INCREMENT for table `keranjang`
 --
 ALTER TABLE `keranjang`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `saran_komplain`
 --
 ALTER TABLE `saran_komplain`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- Constraints for dumped tables
