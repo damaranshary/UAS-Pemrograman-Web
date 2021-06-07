@@ -13,7 +13,7 @@ $query = mysqli_query($connect, "SELECT * FROM users WHERE email='$email' LIMIT 
 $user_status = mysqli_num_rows($query);
 
 if ($user_status > 0) { // if user exists
-    echo "Error";
+    header('location: ../register.php?status=failed');
 }
 
 // Finally, register user if there are no errors in the form
@@ -24,5 +24,5 @@ if ($user_status == 0) {
     mysqli_query($connect, $query);
     //$_SESSION['success'] = "You are now logged in";
     //echo $username;
-    header('location: ../login.php');
+    header('location: ../login.php?status=register-success');
 }

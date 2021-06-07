@@ -25,12 +25,22 @@ mysqli_next_result($connect);
 </head>
 
 <body>
+    <p class="d-none"><?php $status_transaksi = mysqli_real_escape_string($connect, $_GET['status_transaksi']); ?></p>
     <?php
-    include "assets/components/navbar-checkout.php"
+    include "assets/components/navbar-checkout.php";
+    if (empty($status_transaksi)) {
+        $alert = "";
+    } else {
+        $alert = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
+        Keranjang/Alamat anda kosong
+        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+        </div>";
+    }
     ?>
     <main class="mt-5">
         <form id="checkout-form" method="POST" action="server/transaksi_process.php"></form>
         <div class="container">
+            <?php echo "$alert" ?>
             <div class="row">
                 <div class="col me-3">
                     <div class="row ms-3 ms-md-auto">
@@ -60,9 +70,9 @@ mysqli_next_result($connect);
                                         Kode Pos      : $data_getalamat_default[kodepos]
                                         </p>";
                                         echo "<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#changeAddress'>Ganti Alamat</button>";
+                                        echo "<input class='d-none' name=id-alamat form=checkout-form value=$data_getalamat_default[id_alamat]>";
                                         echo "</div>";
                                     }
-                                    echo "<input class='d-none' name=id-alamat form=checkout-form value=$data_getalamat_default[id_alamat]>";
                                 } else {
                                     $query_getalamat = mysqli_query($connect, "CALL getAlamatID2('$id', '$id_alamat')");
                                     $data_getalamat = mysqli_fetch_array($query_getalamat);
@@ -97,10 +107,10 @@ mysqli_next_result($connect);
 
                     <div class="row mt-2 mb-5 ms-3 ms-md-auto">
                         <div class="heading mb-4">
-                            <h3>Waktu Pengambilan</h3>
+                            <h3>Waktu Penjemputan</h3>
                         </div>
                         <div class="p-1">
-                            <p>Tentukan waktu pengambilan pakaian untuk jasa yang anda gunakan</p>
+                            <p>Tentukan waktu penjemputan pakaian dari rumah anda untuk jasa yang anda gunakan</p>
                         </div>
                         <input class="form-control" type="datetime-local" form="checkout-form" id="meeting_time" name="meeting_time" required>
 
@@ -165,23 +175,31 @@ mysqli_next_result($connect);
                                     $pengiriman = 5000;
                                     //
                                     $query_getcart = mysqli_query($connect, "CALL getKeranjang('$id')");
+                                    $data_countcart = mysqli_num_rows($query_getcart);
                                     mysqli_next_result($connect);
                                     $biayajasa = 0;
-                                    while ($data_getcart = mysqli_fetch_array($query_getcart)) {
-                                        echo "<div class=col-4>";
-                                        echo "<img src='https://storage.googleapis.com/uaspweb/img/$data_getcart[image].png' class='card-img' alt=...>";
+                                    if ($data_countcart == 0) {
+                                        echo "<div class=text-center>";
+                                        echo "<h5>Keranjang masih kosong</h5>";
+                                        echo "<p>Tambahkan jasa ke keranjang anda</p>";
                                         echo "</div>";
-                                        echo "<div class=col-8>";
-                                        echo "<h5 class=card-title>$data_getcart[nama] - $data_getcart[jenis]</h5>";
-                                        echo "<p class=card-text>";
-                                        echo "$data_getcart[jumlah] buah <br>";
-                                        echo "Rp. $data_getcart[harga] <br></p>";
-                                        echo "<form method=POST action=server/deletecart_process.php?id=$data_getcart[id_keranjang]>";
-                                        echo "<button class='btn btn-primary' type=submit>Hapus</button>";
-                                        echo "</form>";
-                                        echo "</div>";
-                                        echo "<span class=border-bottom></span>";
-                                        $biayajasa = $biayajasa + $data_getcart['harga'];
+                                    } else {
+                                        while ($data_getcart = mysqli_fetch_array($query_getcart)) {
+                                            echo "<div class=col-4>";
+                                            echo "<img src='https://storage.googleapis.com/uaspweb/img/$data_getcart[image].png' class='card-img' alt=...>";
+                                            echo "</div>";
+                                            echo "<div class=col-8>";
+                                            echo "<h5 class=card-title>$data_getcart[nama] - $data_getcart[jenis]</h5>";
+                                            echo "<p class=card-text>";
+                                            echo "$data_getcart[jumlah] buah <br>";
+                                            echo "Rp. $data_getcart[harga] <br></p>";
+                                            echo "<form method=POST action=server/deletecart_process.php?id=$data_getcart[id_keranjang]>";
+                                            echo "<button class='btn btn-primary' type=submit>Hapus</button>";
+                                            echo "</form>";
+                                            echo "</div>";
+                                            echo "<span class=border-bottom></span>";
+                                            $biayajasa = $biayajasa + $data_getcart['harga'];
+                                        }
                                     }
                                     $query_getpromo = mysqli_query($connect, "CALL getTransaksiID('$id')");
                                     $data_getpromo = mysqli_num_rows($query_getpromo);
@@ -236,7 +254,24 @@ mysqli_next_result($connect);
                                     </div>
                                 </div>
                             </div>
-                            <button type='submit' class='btn btn-primary' form="checkout-form">Lakukan Transaksi</button>
+                            <button type='button' class='btn btn-primary' form="checkout-form" data-bs-toggle="modal" data-bs-target="#exampleModal">Lakukan Transaksi</button>
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Transaksi</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Konfirmasi lakukan transaksi? Transaksi yang telah dilakukan tidak dapat dibatalkan.
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                            <button type='submit' class='btn btn-primary' form="checkout-form">Konfimasi</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

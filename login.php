@@ -32,16 +32,42 @@ session_start(); ?>
                     <div class="text-center">
                         <img class="mb-3" src="assets/img/logo.svg" alt="" width="120px">
                         <h2 class="mb-5">Selamat datang!</h2>
+                        <p class="d-none"><?php $status = mysqli_real_escape_string($connect, $_GET['status']);?></p>
+                        <?php
+                        if (empty($status)) {
+                            $alert = " ";
+                        } else {
+                            if ($status == 'register-success') {
+                                $alert = "<div class='alert alert-success alert-dismissible fade show' role='alert'>
+                                Registrasi berhasil, silahkan login dengan akun yang telah terdaftar.
+                                <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                                </div>";
+                            } else if ($status == 'failed') {
+                                $alert = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
+                                Email atau Password anda salah.
+                                <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                                </div>";
+                            } else if ($status == 'update-password-success') {
+                                $alert = "<div class='alert alert-success alert-dismissible fade show' role='alert'>
+                                Password berhasil dirubah, silahkan login dengan password terbaru.
+                                <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                                </div>";
+                            }
+                            else {
+                                $alert = " ";
+                            }
+                        }
+                        ?>
+                        <?php echo "$alert" ?>
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email address</label>
-                        <input type="email" class="form-control" name="email" id="email">
+                        <input type="email" class="form-control" name="email" id="email" required>
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" name="password" id="password">
+                        <input type="password" class="form-control" name="password" id="password" minlength="8" required>
                     </div>
-
                     <div class="row mb-3">
                         <div class="col">
                             <div class="d-grid">

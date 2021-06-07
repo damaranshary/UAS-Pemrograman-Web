@@ -44,7 +44,9 @@ $id = $row['id'];
                         <!-- <button class="btn button-primary btn-primary px-4 me-2" type="submit">Login</button> -->
                         <a class="nav-link" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user me-2"></i><?php echo "$name" ?></a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="transaction-history.php">Histori Transaksi</a></li>
                             <li><a class="dropdown-item" href="profile.php">Profil</a></li>
+                            <li><a class="dropdown-item" href="complaint.php">Saran dan Komplain</a></li>
                             <li><a class="dropdown-item" href="server/logout_process.php">Keluar</a></li>
                         </ul>
                     </li>
